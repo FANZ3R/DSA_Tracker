@@ -4,492 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DSA / Revision</title>
-<meta name="description" content="16 week DSA revision tracker with derivation drills">
 <style>
   :root {
-    --bg: #0d0d10;
-    --surface: #16161a;
-    --surface-2: #1e1e23;
-    --surface-3: #26262c;
-    --border: #2a2a30;
-    --border-strong: #3a3a42;
-    --text: #e6e6e8;
-    --text-mute: #9a9aa0;
-    --text-faint: #5a5a62;
-    --accent: #f0a040;
-    --accent-bg: #2a1f12;
-    --ok: #6fb87a;
+    --bg: #0d0d10; --surface: #16161a; --surface-2: #1e1e23; --surface-3: #26262c;
+    --border: #2a2a30; --border-strong: #3a3a42;
+    --text: #e6e6e8; --text-mute: #9a9aa0; --text-faint: #5a5a62;
+    --accent: #f0a040; --accent-bg: #2a1f12;
+    --ok: #6fb87a; --warn: #d4a04a; --err: #d47474;
     --easy-bg: #1d2a1f; --easy-fg: #7fb878;
     --med-bg: #2a2418; --med-fg: #d4a04a;
     --hard-bg: #2a1d1d; --hard-fg: #d47474;
+    --code-bg: #0a0a0d;
     --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Menlo", "Consolas", monospace;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
   }
   @media (prefers-color-scheme: light) {
     :root {
-      --bg: #fafaf6;
-      --surface: #ffffff;
-      --surface-2: #f3f3ed;
-      --surface-3: #e8e8e0;
-      --border: #e0e0d6;
-      --border-strong: #c8c8be;
-      --text: #1a1a1d;
-      --text-mute: #5a5a60;
-      --text-faint: #9a9aa0;
-      --accent: #b8651d;
-      --accent-bg: #f7ead8;
-      --ok: #3d8a4a;
+      --bg: #fafaf6; --surface: #fff; --surface-2: #f3f3ed; --surface-3: #e8e8e0;
+      --border: #e0e0d6; --border-strong: #c8c8be;
+      --text: #1a1a1d; --text-mute: #5a5a60; --text-faint: #9a9aa0;
+      --accent: #b8651d; --accent-bg: #f7ead8;
+      --ok: #3d8a4a; --warn: #b8851d; --err: #b8454a;
       --easy-bg: #e8f3e4; --easy-fg: #3d7a3d;
       --med-bg: #f7ead4; --med-fg: #8a5d1a;
       --hard-bg: #f7e0e0; --hard-fg: #8a3030;
+      --code-bg: #f3f3ed;
     }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-sans);
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 15px; line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased; }
   .wrap { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
-
-  header.top {
-    display: flex; align-items: center; justify-content: space-between;
-    padding-bottom: 20px;
-    margin-bottom: 36px;
-    border-bottom: 1px solid var(--border);
-  }
-  .brand {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    color: var(--text-mute);
-  }
+  header.top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; margin-bottom: 36px; border-bottom: 1px solid var(--border); }
+  .brand { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em; color: var(--text-mute); }
   .brand .slash { color: var(--text-faint); margin: 0 8px; }
   .brand .lead { color: var(--text); }
-  .top-meta {
-    display: flex; gap: 16px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-mute);
-  }
+  .top-meta { display: flex; gap: 14px; align-items: center; font-family: var(--font-mono); font-size: 12px; color: var(--text-mute); }
   .top-meta .val { color: var(--accent); }
-
-  .hero {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 28px 28px 24px;
-    margin-bottom: 28px;
-  }
-  .hero-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: var(--text-faint);
-    margin-bottom: 12px;
-  }
-  .hero h1 {
-    font-size: 28px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    margin-bottom: 8px;
-  }
-  .hero-sub {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-mute);
-    margin-bottom: 20px;
-  }
+  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-faint); cursor: pointer; transition: all 0.2s; display: inline-block; }
+  .sync-dot.synced { background: var(--ok); }
+  .sync-dot.syncing { background: var(--warn); animation: pulse 1s ease-in-out infinite; }
+  .sync-dot.error { background: var(--err); }
+  .sync-dot:hover { transform: scale(1.4); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 28px 28px 24px; margin-bottom: 28px; }
+  .hero-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--text-faint); margin-bottom: 12px; }
+  .hero h1 { font-size: 28px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .hero-sub { font-family: var(--font-mono); font-size: 12px; color: var(--text-mute); margin-bottom: 20px; }
   .hero-sub .dot { color: var(--text-faint); margin: 0 8px; }
-  .progress-bar {
-    height: 6px;
-    background: var(--surface-3);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    width: 0%;
-    transition: width 0.4s ease;
-  }
-  .progress-meta {
-    display: flex; justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-  }
-
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-bottom: 36px;
-  }
-  .stat {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 16px 18px;
-  }
-  .stat-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--text-faint);
-    margin-bottom: 8px;
-  }
+  .progress-bar { height: 6px; background: var(--surface-3); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.4s ease; }
+  .progress-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 36px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 16px 18px; }
+  .stat-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--text-faint); margin-bottom: 8px; }
   .stat-row { display: flex; align-items: baseline; gap: 6px; }
-  .stat-val {
-    font-family: var(--font-mono);
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1;
-  }
+  .stat-val { font-family: var(--font-mono); font-size: 24px; font-weight: 500; line-height: 1; }
   .stat-val.hot { color: var(--accent); }
-  .stat-suf {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-  }
+  .stat-suf { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); }
   @media (max-width: 640px) {
     .stats { grid-template-columns: repeat(2, 1fr); }
     .wrap { padding: 24px 16px 60px; }
     .hero { padding: 22px 20px 20px; }
     .hero h1 { font-size: 22px; }
   }
-
-  .section-head {
-    display: flex; align-items: baseline; gap: 12px;
-    margin: 36px 0 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-head h2 {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-mute);
-  }
-  .section-head .count {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-    margin-left: auto;
-  }
-
-  .next-up {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 20px 22px;
-    margin-bottom: 28px;
-  }
+  .section-head { display: flex; align-items: baseline; gap: 12px; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .section-head h2 { font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mute); }
+  .section-head .count { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-left: auto; }
+  .next-up { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 20px 22px; margin-bottom: 28px; }
   .next-up.empty .next-head { color: var(--ok); }
-  .next-head {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
+  .next-head { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 14px; }
   .next-list { display: flex; flex-direction: column; gap: 4px; }
-
-  .phase {
-    margin-bottom: 28px;
-    padding-bottom: 4px;
-  }
-  .phase-head-row {
-    display: flex; align-items: center; gap: 14px;
-    padding: 12px 0;
-    cursor: pointer;
-    user-select: none;
-    border-bottom: 1px solid var(--border);
-  }
+  .phase { margin-bottom: 28px; }
+  .phase-head-row { display: flex; align-items: center; gap: 14px; padding: 12px 0; cursor: pointer; user-select: none; border-bottom: 1px solid var(--border); }
   .phase-head-row:hover { background: var(--surface); padding-left: 8px; padding-right: 8px; margin-left: -8px; margin-right: -8px; border-radius: 4px; }
-  .phase-num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-    width: 28px;
-  }
-  .phase-title {
-    font-size: 15px;
-    font-weight: 500;
-    flex: 1;
-  }
-  .phase-bar-mini {
-    width: 80px;
-    height: 4px;
-    background: var(--surface-3);
-    border-radius: 2px;
-    overflow: hidden;
-  }
+  .phase-num { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); width: 28px; }
+  .phase-title { font-size: 15px; font-weight: 500; flex: 1; }
+  .phase-bar-mini { width: 80px; height: 4px; background: var(--surface-3); border-radius: 2px; overflow: hidden; }
   .phase-bar-mini-fill { height: 100%; background: var(--accent); width: 0; transition: width 0.3s; }
   .phase-bar-mini.done .phase-bar-mini-fill { background: var(--ok); }
-  .phase-pct {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-mute);
-    width: 36px;
-    text-align: right;
-  }
-  .phase-chev {
-    font-family: var(--font-mono);
-    color: var(--text-faint);
-    transition: transform 0.2s;
-    font-size: 12px;
-  }
+  .phase-pct { font-family: var(--font-mono); font-size: 11px; color: var(--text-mute); width: 36px; text-align: right; }
+  .phase-chev { font-family: var(--font-mono); color: var(--text-faint); transition: transform 0.2s; font-size: 12px; }
   .phase.open .phase-chev { transform: rotate(90deg); }
   .phase-body { display: none; padding: 20px 0 8px; }
   .phase.open .phase-body { display: block; }
-
-  .drill {
-    background: var(--accent-bg);
-    border-left: 2px solid var(--accent);
-    padding: 12px 16px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text);
-    margin-bottom: 20px;
-    border-radius: 0 4px 4px 0;
-  }
-  .drill .label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 4px;
-  }
-
+  .drill { background: var(--accent-bg); border-left: 2px solid var(--accent); padding: 12px 16px; font-size: 13px; line-height: 1.6; margin-bottom: 20px; border-radius: 0 4px 4px 0; }
+  .drill .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--accent); display: block; margin-bottom: 4px; }
   .topic { margin-bottom: 24px; }
-  .topic-head {
-    display: flex; align-items: baseline;
-    margin-bottom: 8px;
-  }
-  .topic-name {
-    font-size: 14px;
-    font-weight: 500;
-    flex: 1;
-  }
-  .topic-stat {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-faint);
-  }
+  .topic-head { display: flex; align-items: baseline; margin-bottom: 8px; }
+  .topic-name { font-size: 14px; font-weight: 500; flex: 1; }
+  .topic-stat { font-family: var(--font-mono); font-size: 10px; color: var(--text-faint); }
   .topic-stat.complete { color: var(--ok); }
-  .refresh {
-    font-size: 12px;
-    color: var(--text-mute);
-    margin-bottom: 10px;
-    padding: 8px 12px;
-    background: var(--surface);
-    border-radius: 4px;
-    line-height: 1.6;
-  }
+  .learn { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 12px; overflow: hidden; }
+  .learn-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; user-select: none; }
+  .learn-head:hover { background: var(--surface-2); }
+  .learn-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--accent); }
+  .learn-summary { font-size: 12px; color: var(--text-mute); flex: 1; margin-left: 8px; }
+  .learn-status { font-family: var(--font-mono); font-size: 10px; color: var(--text-faint); }
+  .learn-status.done { color: var(--ok); }
+  .learn-chev { color: var(--text-faint); font-size: 12px; transition: transform 0.2s; font-family: var(--font-mono); }
+  .learn.open .learn-chev { transform: rotate(90deg); }
+  .learn-body { display: none; padding: 4px 16px 16px; border-top: 1px solid var(--border); }
+  .learn.open .learn-body { display: block; }
+  .learn-section { margin-top: 14px; }
+  .learn-section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--text-faint); margin-bottom: 6px; }
+  .learn-section-body { font-size: 13.5px; line-height: 1.65; }
+  pre.tmpl { background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 12px 14px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; overflow-x: auto; margin-top: 6px; }
+  .understood-row { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .understood-row:hover .understood-label { color: var(--text); }
+  .understood-check { width: 14px; height: 14px; border: 1px solid var(--border-strong); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--bg); }
+  .understood-row.checked .understood-check { background: var(--ok); border-color: var(--ok); }
+  .understood-check svg { width: 8px; height: 8px; stroke: var(--bg); stroke-width: 3; fill: none; opacity: 0; }
+  .understood-row.checked .understood-check svg { opacity: 1; }
+  .understood-label { font-size: 12px; color: var(--text-mute); font-family: var(--font-mono); letter-spacing: 0.02em; }
+  .understood-row.checked .understood-label { color: var(--ok); }
+  .refresh { font-size: 12px; color: var(--text-mute); margin-bottom: 10px; padding: 8px 12px; background: var(--surface); border-radius: 4px; line-height: 1.6; }
   .refresh li { list-style: none; padding-left: 14px; position: relative; }
-  .refresh li::before {
-    content: ""; position: absolute; left: 4px; top: 9px;
-    width: 3px; height: 3px; background: var(--text-faint); border-radius: 50%;
-  }
-
+  .refresh li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 3px; height: 3px; background: var(--text-faint); border-radius: 50%; }
   .problems { display: flex; flex-direction: column; gap: 3px; }
-  .prob {
-    display: flex; align-items: center; gap: 12px;
-    padding: 8px 12px;
-    background: var(--surface);
-    border: 1px solid transparent;
-    border-radius: 4px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
+  .prob { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: var(--surface); border: 1px solid transparent; border-radius: 4px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
   .prob:hover { background: var(--surface-2); border-color: var(--border); }
-  .prob.done {
-    background: transparent;
-    color: var(--text-faint);
-  }
-  .prob.done .prob-name a { color: var(--text-faint); text-decoration: line-through; text-decoration-thickness: 1px; }
-  .check {
-    width: 16px; height: 16px;
-    border: 1px solid var(--border-strong);
-    border-radius: 3px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    background: var(--bg);
-  }
-  .prob.done .check {
-    background: var(--ok);
-    border-color: var(--ok);
-  }
+  .prob.done { background: transparent; color: var(--text-faint); }
+  .prob.done .prob-name a { color: var(--text-faint); text-decoration: line-through; }
+  .check { width: 16px; height: 16px; border: 1px solid var(--border-strong); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--bg); }
+  .prob.done .check { background: var(--ok); border-color: var(--ok); }
   .check svg { width: 10px; height: 10px; stroke: var(--bg); stroke-width: 3; fill: none; opacity: 0; }
   .prob.done .check svg { opacity: 1; }
-  .prob-num {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    color: var(--text-faint);
-    width: 38px;
-    flex-shrink: 0;
-  }
+  .prob-num { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint); width: 38px; flex-shrink: 0; }
   .prob-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .prob-name a { color: var(--text); text-decoration: none; }
   .prob-name a:hover { color: var(--accent); }
-  .prob.done .prob-name a:hover { color: var(--text-mute); }
-  .diff {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 3px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    flex-shrink: 0;
-  }
+  .diff { font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 500; letter-spacing: 0.04em; flex-shrink: 0; }
   .diff.E { background: var(--easy-bg); color: var(--easy-fg); }
   .diff.M { background: var(--med-bg); color: var(--med-fg); }
   .diff.H { background: var(--hard-bg); color: var(--hard-fg); }
-
   .notes-wrap { margin-top: 10px; }
-  .notes-toggle {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-faint);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 0;
-    letter-spacing: 0.06em;
-  }
+  .notes-toggle { font-family: var(--font-mono); font-size: 10px; color: var(--text-faint); background: none; border: none; cursor: pointer; padding: 4px 0; letter-spacing: 0.06em; }
   .notes-toggle:hover { color: var(--text-mute); }
-  .notes-area {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 10px 12px;
-    color: var(--text);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    line-height: 1.6;
-    resize: vertical;
-    min-height: 72px;
-    margin-top: 6px;
-    display: none;
-    outline: none;
-  }
+  .notes-area { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px; color: var(--text); font-family: var(--font-mono); font-size: 12px; line-height: 1.6; resize: vertical; min-height: 72px; margin-top: 6px; display: none; outline: none; }
   .notes-area:focus { border-color: var(--accent); }
   .notes-wrap.open .notes-area { display: block; }
-
-  .parallel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 22px 24px;
-    margin-top: 28px;
-  }
-  .parallel h3 {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
-  .parallel p {
-    font-size: 13px;
-    color: var(--text-mute);
-    margin-bottom: 14px;
-    line-height: 1.6;
-  }
-  .par-row {
-    display: grid; grid-template-columns: 90px 1fr;
-    gap: 10px 16px;
-    font-size: 12.5px;
-    padding: 8px 0;
-    border-top: 1px solid var(--border);
-  }
-  .par-row .when {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.04em;
-  }
-
-  .mantra {
-    text-align: center;
-    margin: 48px 0 24px;
-    padding: 24px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: var(--text-mute);
-    line-height: 1.8;
-  }
-  .mantra .accent { color: var(--accent); }
-
-  footer.bottom {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-  }
+  .parallel { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 22px 24px; margin-top: 28px; }
+  .parallel h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .parallel p { font-size: 13px; color: var(--text-mute); margin-bottom: 14px; line-height: 1.6; }
+  .par-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px 16px; font-size: 12.5px; padding: 8px 0; border-top: 1px solid var(--border); }
+  .par-row .when { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.04em; }
+  .mantra { text-align: center; margin: 48px 0 24px; padding: 24px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--text-mute); line-height: 1.8; }
+  footer.bottom { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    background: transparent;
-    color: var(--text-mute);
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    transition: all 0.15s;
-  }
+  .btn { font-family: var(--font-mono); font-size: 11px; background: transparent; color: var(--text-mute); border: 1px solid var(--border); padding: 8px 14px; border-radius: 4px; cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
   .btn:hover { color: var(--text); border-color: var(--border-strong); background: var(--surface); }
-  .btn.danger:hover { color: var(--hard-fg); border-color: var(--hard-fg); }
-  .footnote {
-    font-size: 11px;
-    color: var(--text-faint);
-    margin-top: 14px;
-    line-height: 1.6;
-  }
-  .footnote a { color: var(--text-mute); }
-
-  .toast {
-    position: fixed;
-    bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--surface-3);
-    border: 1px solid var(--border-strong);
-    color: var(--text);
-    padding: 10px 18px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-family: var(--font-mono);
-    opacity: 0;
-    transition: all 0.3s ease;
-    z-index: 100;
-    pointer-events: none;
-  }
+  .btn.danger:hover { color: var(--err); border-color: var(--err); }
+  .btn.primary { color: var(--accent); border-color: var(--accent); }
+  .btn.primary:hover { background: var(--accent-bg); }
+  .footnote { font-size: 11px; color: var(--text-faint); margin-top: 14px; line-height: 1.6; }
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: var(--bg); border: 1px solid var(--border-strong); border-radius: 6px; max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; }
+  .modal h2 { font-size: 18px; font-weight: 500; margin-bottom: 8px; }
+  .modal p { font-size: 13.5px; color: var(--text-mute); line-height: 1.6; margin-bottom: 14px; }
+  .modal-steps { font-size: 12.5px; color: var(--text-mute); margin: 14px 0; padding-left: 18px; line-height: 1.7; }
+  .modal-steps li { margin-bottom: 6px; }
+  .modal-steps a { color: var(--accent); text-decoration: none; }
+  .modal-steps em { color: var(--accent); font-style: normal; font-family: var(--font-mono); font-size: 12px; }
+  .modal-input { width: 100%; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-family: var(--font-mono); font-size: 12.5px; outline: none; margin: 6px 0 12px; }
+  .modal-input:focus { border-color: var(--accent); }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+  .modal-status { font-family: var(--font-mono); font-size: 11px; padding: 8px 12px; background: var(--surface); border-radius: 4px; margin-top: 12px; color: var(--text-mute); }
+  .modal-status.ok { color: var(--ok); }
+  .modal-status.err { color: var(--err); }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--surface-3); border: 1px solid var(--border-strong); color: var(--text); padding: 10px 18px; border-radius: 4px; font-size: 13px; font-family: var(--font-mono); opacity: 0; transition: all 0.3s ease; z-index: 100; pointer-events: none; }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
   .toast.ok { border-color: var(--ok); color: var(--ok); }
+  .toast.err { border-color: var(--err); color: var(--err); }
 </style>
 </head>
 <body>
 <div class="wrap">
-
 <header class="top">
   <div class="brand"><span class="lead">dsa</span><span class="slash">/</span><span>revision</span></div>
   <div class="top-meta">
     <span><span class="val" id="meta-done">0</span>/<span id="meta-total">154</span></span>
     <span><span class="val" id="meta-streak">0</span>d streak</span>
+    <span class="sync-dot" id="sync-dot" title="Sync not configured"></span>
   </div>
 </header>
-
 <section class="hero">
   <div class="hero-label" id="hero-label">CURRENTLY IN</div>
   <h1 id="hero-title">Foundations reset</h1>
@@ -506,425 +204,304 @@
     <span id="hero-pct">0%</span>
   </div>
 </section>
-
 <div class="stats">
-  <div class="stat">
-    <div class="stat-label">STREAK</div>
-    <div class="stat-row">
-      <div class="stat-val hot" id="stat-streak">0</div>
-      <div class="stat-suf">days</div>
-    </div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">TOTAL</div>
-    <div class="stat-row">
-      <div class="stat-val" id="stat-total">0</div>
-      <div class="stat-suf">/ <span id="stat-total-max">154</span></div>
-    </div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">TODAY</div>
-    <div class="stat-row">
-      <div class="stat-val" id="stat-today">0</div>
-      <div class="stat-suf">solved</div>
-    </div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">PHASE</div>
-    <div class="stat-row">
-      <div class="stat-val" id="stat-phase">1</div>
-      <div class="stat-suf">/ 9</div>
-    </div>
-  </div>
+  <div class="stat"><div class="stat-label">STREAK</div><div class="stat-row"><div class="stat-val hot" id="stat-streak">0</div><div class="stat-suf">days</div></div></div>
+  <div class="stat"><div class="stat-label">TOTAL</div><div class="stat-row"><div class="stat-val" id="stat-total">0</div><div class="stat-suf">/ <span id="stat-total-max">154</span></div></div></div>
+  <div class="stat"><div class="stat-label">TODAY</div><div class="stat-row"><div class="stat-val" id="stat-today">0</div><div class="stat-suf">solved</div></div></div>
+  <div class="stat"><div class="stat-label">PHASE</div><div class="stat-row"><div class="stat-val" id="stat-phase">1</div><div class="stat-suf">/ 9</div></div></div>
 </div>
-
 <section class="next-up" id="next-up">
   <div class="next-head" id="next-head">NEXT UP</div>
   <div class="next-list" id="next-list"></div>
 </section>
-
-<div class="section-head">
-  <h2>The plan</h2>
-  <span class="count" id="plan-count"></span>
-</div>
-
+<div class="section-head"><h2>The plan</h2><span class="count" id="plan-count"></span></div>
 <div id="phases"></div>
-
 <section class="parallel">
   <h3>Parallel track: forced derivation</h3>
-  <p>LeetCode shows you the tag. AtCoder and Codeforces don't. This is the part that actually fixes the pattern matching problem. Run it weekly alongside the phases above.</p>
-  <div class="par-row"><span class="when">SAT 21:30</span><span>AtCoder ABC live contest, 100 minutes. Solve A through D in order, attempt E.</span></div>
-  <div class="par-row"><span class="when">SUN</span><span>Upsolve yesterday's contest. Read editorial, close it, re-solve from scratch the next day.</span></div>
-  <div class="par-row"><span class="when">WED</span><span>One Codeforces div2 virtual contest if time permits. Skip if it cuts into LC phase work.</span></div>
-  <div class="par-row"><span class="when">DAILY</span><span>60 to 75 minutes of phase work, 5 days a week. Steady beats binges.</span></div>
+  <p>LeetCode shows you the tag. AtCoder and Codeforces don't. This is the part that actually fixes the pattern matching problem.</p>
+  <div class="par-row"><span class="when">SAT 21:30</span><span>AtCoder ABC live contest, 100 min. Solve A through D in order, attempt E.</span></div>
+  <div class="par-row"><span class="when">SUN</span><span>Upsolve yesterday's contest. Read editorial, close, re-solve from scratch next day.</span></div>
+  <div class="par-row"><span class="when">WED</span><span>One Codeforces div2 virtual contest if time permits.</span></div>
+  <div class="par-row"><span class="when">DAILY</span><span>60-75 min phase work, 5 days a week. Steady beats binges.</span></div>
 </section>
-
 <div class="mantra" id="mantra"></div>
-
 <footer class="bottom">
   <div class="actions">
+    <button class="btn" id="btn-sync">SYNC SETUP</button>
     <button class="btn" id="btn-export">EXPORT JSON</button>
     <button class="btn" id="btn-import">IMPORT JSON</button>
     <button class="btn" id="btn-copy">COPY LINK</button>
     <button class="btn danger" id="btn-reset">RESET</button>
   </div>
-  <p class="footnote">
-    Progress saves to this browser's localStorage. To sync between office and home PC: click EXPORT JSON, paste the file into your repo or note app, then IMPORT JSON on the other device. Or use COPY LINK to share state via URL.
-  </p>
+  <p class="footnote">Progress saves to this browser. Enable GitHub Gist sync to auto-share between devices.</p>
 </footer>
-
 </div>
-
+<div class="modal-backdrop" id="modal-sync">
+  <div class="modal">
+    <h2>GitHub Gist sync</h2>
+    <p>Auto-sync progress between devices via a private GitHub gist. One-time setup per browser.</p>
+    <ol class="modal-steps">
+      <li>Open <a href="https://github.com/settings/tokens/new?scopes=gist&description=DSA+Tracker" target="_blank" rel="noopener">github.com/settings/tokens/new</a> (prefilled with the right scope)</li>
+      <li>Set expiration to "No expiration" or 1 year</li>
+      <li>Verify only <em>gist</em> is checked, nothing else</li>
+      <li>Click "Generate token" and copy it</li>
+      <li>Paste below and click Save</li>
+    </ol>
+    <input type="password" class="modal-input" id="token-input" placeholder="ghp_..." autocomplete="off">
+    <div class="modal-status" id="modal-status" style="display:none;"></div>
+    <div class="modal-actions">
+      <button class="btn danger" id="btn-disconnect" style="display:none;">DISCONNECT</button>
+      <button class="btn" id="btn-modal-close">CANCEL</button>
+      <button class="btn primary" id="btn-modal-save">SAVE</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
-
 <script>
 const PLAN = [
-  {
-    n: 1, title: "Foundations reset", weeks: "Weeks 1-2",
-    drill: "State the invariant your data structure or pointers maintain. If you can't say it in one sentence, you don't actually understand it yet.",
-    topics: [
-      {
-        name: "Arrays and hashing",
-        refresh: ["Hash map = O(1) avg, but collisions exist. Know when this matters.", "Patterns: frequency counting, complement lookup, set for de-dup"],
-        probs: [
-          [1, "Two Sum", "E", "two-sum"],
-          [217, "Contains Duplicate", "E", "contains-duplicate"],
-          [242, "Valid Anagram", "E", "valid-anagram"],
-          [49, "Group Anagrams", "M", "group-anagrams"],
-          [347, "Top K Frequent Elements", "M", "top-k-frequent-elements"],
-          [271, "Encode and Decode Strings", "M", "encode-and-decode-strings"],
-          [238, "Product of Array Except Self", "M", "product-of-array-except-self"],
-          [36, "Valid Sudoku", "M", "valid-sudoku"],
-          [128, "Longest Consecutive Sequence", "M", "longest-consecutive-sequence"]
-        ]
-      },
-      {
-        name: "Two pointers",
-        refresh: ["Needs sorted array or a monotonic property to exploit", "Pointers converge because pairs outside the window are provably worse"],
-        probs: [
-          [125, "Valid Palindrome", "E", "valid-palindrome"],
-          [167, "Two Sum II", "M", "two-sum-ii-input-array-is-sorted"],
-          [15, "3Sum", "M", "3sum"],
-          [11, "Container With Most Water", "M", "container-with-most-water"],
-          [42, "Trapping Rain Water", "H", "trapping-rain-water"]
-        ]
-      },
-      {
-        name: "Sliding window",
-        refresh: ["Define expand and contract conditions explicitly before coding", "Maintain window state incrementally, not by rescanning"],
-        probs: [
-          [121, "Best Time to Buy and Sell Stock", "E", "best-time-to-buy-and-sell-stock"],
-          [3, "Longest Substring Without Repeating", "M", "longest-substring-without-repeating-characters"],
-          [424, "Longest Repeating Character Replacement", "M", "longest-repeating-character-replacement"],
-          [567, "Permutation in String", "M", "permutation-in-string"],
-          [76, "Minimum Window Substring", "H", "minimum-window-substring"],
-          [239, "Sliding Window Maximum", "H", "sliding-window-maximum"]
-        ]
-      },
-      {
-        name: "Prefix sum",
-        refresh: ["O(1) range query after O(n) precompute", "Pair with hash map for subarray-sum-equals-k problems"],
-        probs: [
-          [303, "Range Sum Query Immutable", "E", "range-sum-query-immutable"],
-          [560, "Subarray Sum Equals K", "M", "subarray-sum-equals-k"],
-          [525, "Contiguous Array", "M", "contiguous-array"],
-          [523, "Continuous Subarray Sum", "M", "continuous-subarray-sum"],
-          [1248, "Count Number of Nice Subarrays", "M", "count-number-of-nice-subarrays"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 2, title: "Linear structures", weeks: "Week 3",
-    drill: "For monotonic stack, say out loud what invariant the stack maintains and why pushing or popping in a given order preserves it. If you can't, you've memorized not understood.",
-    topics: [
-      {
-        name: "Stack and monotonic stack",
-        refresh: ["Monotonic stack maintains increasing or decreasing order", "Pop while incoming dominates top, then push. Amortized O(n)"],
-        probs: [
-          [20, "Valid Parentheses", "E", "valid-parentheses"],
-          [155, "Min Stack", "M", "min-stack"],
-          [150, "Evaluate Reverse Polish Notation", "M", "evaluate-reverse-polish-notation"],
-          [22, "Generate Parentheses", "M", "generate-parentheses"],
-          [739, "Daily Temperatures", "M", "daily-temperatures"],
-          [503, "Next Greater Element II", "M", "next-greater-element-ii"],
-          [853, "Car Fleet", "M", "car-fleet"],
-          [84, "Largest Rectangle in Histogram", "H", "largest-rectangle-in-histogram"]
-        ]
-      },
-      {
-        name: "Linked list",
-        refresh: ["Reversal pattern: prev, curr, next pointer triplet", "Fast slow pointers for cycle and middle. Dummy head simplifies edge cases"],
-        probs: [
-          [206, "Reverse Linked List", "E", "reverse-linked-list"],
-          [21, "Merge Two Sorted Lists", "E", "merge-two-sorted-lists"],
-          [141, "Linked List Cycle", "E", "linked-list-cycle"],
-          [143, "Reorder List", "M", "reorder-list"],
-          [19, "Remove Nth Node From End", "M", "remove-nth-node-from-end-of-list"],
-          [138, "Copy List with Random Pointer", "M", "copy-list-with-random-pointer"],
-          [2, "Add Two Numbers", "M", "add-two-numbers"],
-          [287, "Find the Duplicate Number", "M", "find-the-duplicate-number"],
-          [146, "LRU Cache", "M", "lru-cache"],
-          [23, "Merge K Sorted Lists", "H", "merge-k-sorted-lists"],
-          [25, "Reverse Nodes in K-Group", "H", "reverse-nodes-in-k-group"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 3, title: "Binary search", weeks: "Week 4",
-    drill: "Name your search space and the monotonic predicate that lets you halve it. The off-by-one bugs come from sloppy invariants, not from forgetting syntax.",
-    topics: [
-      {
-        name: "Classic binary search",
-        refresh: ["Pick one interval convention (half-open or closed) and stick with it", "The first-true template handles most LC variants"],
-        probs: [
-          [704, "Binary Search", "E", "binary-search"],
-          [74, "Search a 2D Matrix", "M", "search-a-2d-matrix"],
-          [153, "Find Minimum in Rotated Sorted Array", "M", "find-minimum-in-rotated-sorted-array"],
-          [33, "Search in Rotated Sorted Array", "M", "search-in-rotated-sorted-array"],
-          [981, "Time Based Key-Value Store", "M", "time-based-key-value-store"],
-          [34, "Find First and Last Position", "M", "find-first-and-last-position-of-element-in-sorted-array"],
-          [4, "Median of Two Sorted Arrays", "H", "median-of-two-sorted-arrays"]
-        ]
-      },
-      {
-        name: "Binary search on answer",
-        refresh: ["Search space is the answer range, not the input array", "Predicate: can I achieve X? Monotonic feasibility is required"],
-        probs: [
-          [875, "Koko Eating Bananas", "M", "koko-eating-bananas"],
-          [1011, "Capacity to Ship Packages", "M", "capacity-to-ship-packages-within-d-days"],
-          [1482, "Minimum Days to Make Bouquets", "M", "minimum-number-of-days-to-make-m-bouquets"],
-          [410, "Split Array Largest Sum", "H", "split-array-largest-sum"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 4, title: "Trees", weeks: "Weeks 5-6",
-    drill: "For every tree recursion, write the contract for helper(node) before coding: what does it take, what does it return, what does the parent do with that return value.",
-    topics: [
-      {
-        name: "Binary tree traversal",
-        refresh: ["Pre, in, post = where the visit happens relative to children", "BFS uses queue. DFS uses recursion or explicit stack"],
-        probs: [
-          [226, "Invert Binary Tree", "E", "invert-binary-tree"],
-          [104, "Maximum Depth", "E", "maximum-depth-of-binary-tree"],
-          [543, "Diameter of Binary Tree", "E", "diameter-of-binary-tree"],
-          [110, "Balanced Binary Tree", "E", "balanced-binary-tree"],
-          [100, "Same Tree", "E", "same-tree"],
-          [572, "Subtree of Another Tree", "E", "subtree-of-another-tree"],
-          [102, "Level Order Traversal", "M", "binary-tree-level-order-traversal"],
-          [199, "Right Side View", "M", "binary-tree-right-side-view"],
-          [1448, "Count Good Nodes", "M", "count-good-nodes-in-binary-tree"],
-          [105, "Construct Tree from Preorder and Inorder", "M", "construct-binary-tree-from-preorder-and-inorder-traversal"],
-          [124, "Binary Tree Maximum Path Sum", "H", "binary-tree-maximum-path-sum"],
-          [297, "Serialize and Deserialize Binary Tree", "H", "serialize-and-deserialize-binary-tree"]
-        ]
-      },
-      {
-        name: "BST",
-        refresh: ["Invariant: left subtree all less, right subtree all greater, recursively", "In-order traversal yields sorted sequence. Use for kth and validation"],
-        probs: [
-          [235, "LCA of BST", "M", "lowest-common-ancestor-of-a-binary-search-tree"],
-          [98, "Validate BST", "M", "validate-binary-search-tree"],
-          [230, "Kth Smallest in BST", "M", "kth-smallest-element-in-a-bst"]
-        ]
-      },
-      {
-        name: "Trie",
-        refresh: ["Tree of characters, each node may be a word terminator", "O(L) lookup. Best for prefix queries and dictionary search"],
-        probs: [
-          [208, "Implement Trie", "M", "implement-trie-prefix-tree"],
-          [211, "Design Add and Search Words", "M", "design-add-and-search-words-data-structure"],
-          [212, "Word Search II", "H", "word-search-ii"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 5, title: "Recursion and backtracking", weeks: "Week 7",
-    drill: "Draw the decision tree on paper first. What is one decision at each level? When can you prune? If you can't draw it, you can't code it.",
-    topics: [
-      {
-        name: "Backtracking",
-        refresh: ["Choose, explore, unchoose pattern", "State = path so far plus remaining choices. Sort then skip for duplicates"],
-        probs: [
-          [78, "Subsets", "M", "subsets"],
-          [39, "Combination Sum", "M", "combination-sum"],
-          [40, "Combination Sum II", "M", "combination-sum-ii"],
-          [90, "Subsets II", "M", "subsets-ii"],
-          [46, "Permutations", "M", "permutations"],
-          [47, "Permutations II", "M", "permutations-ii"],
-          [79, "Word Search", "M", "word-search"],
-          [131, "Palindrome Partitioning", "M", "palindrome-partitioning"],
-          [17, "Letter Combinations of a Phone Number", "M", "letter-combinations-of-a-phone-number"],
-          [51, "N-Queens", "H", "n-queens"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 6, title: "Graphs", weeks: "Weeks 8-9",
-    drill: "What is a node? What is an edge? Are you given the graph or constructing it? Many graph problems disguise themselves as grids or strings.",
-    topics: [
-      {
-        name: "BFS and DFS",
-        refresh: ["BFS gives shortest path on unweighted graphs", "Always maintain visited. Multi-source BFS = enqueue all sources at start"],
-        probs: [
-          [200, "Number of Islands", "M", "number-of-islands"],
-          [695, "Max Area of Island", "M", "max-area-of-island"],
-          [133, "Clone Graph", "M", "clone-graph"],
-          [417, "Pacific Atlantic Water Flow", "M", "pacific-atlantic-water-flow"],
-          [130, "Surrounded Regions", "M", "surrounded-regions"],
-          [994, "Rotting Oranges", "M", "rotting-oranges"],
-          [286, "Walls and Gates", "M", "walls-and-gates"],
-          [127, "Word Ladder", "H", "word-ladder"]
-        ]
-      },
-      {
-        name: "Topological sort",
-        refresh: ["DAG ordering. Kahn's algorithm uses in-degrees and BFS", "DFS post-order also works. Cycle detection is free"],
-        probs: [
-          [207, "Course Schedule", "M", "course-schedule"],
-          [210, "Course Schedule II", "M", "course-schedule-ii"],
-          [269, "Alien Dictionary", "H", "alien-dictionary"]
-        ]
-      },
-      {
-        name: "Union find",
-        refresh: ["Two ops: find with path compression, union by rank or size", "Near O(1) amortized. Use for repeated same-group queries"],
-        probs: [
-          [547, "Number of Provinces", "M", "number-of-provinces"],
-          [684, "Redundant Connection", "M", "redundant-connection"],
-          [261, "Graph Valid Tree", "M", "graph-valid-tree"],
-          [721, "Accounts Merge", "M", "accounts-merge"]
-        ]
-      },
-      {
-        name: "Shortest path",
-        refresh: ["Dijkstra: priority queue, non-negative weights only", "Bellman-Ford handles negative edges, O(VE)"],
-        probs: [
-          [743, "Network Delay Time", "M", "network-delay-time"],
-          [787, "Cheapest Flights Within K Stops", "M", "cheapest-flights-within-k-stops"],
-          [1631, "Path With Minimum Effort", "M", "path-with-minimum-effort"],
-          [778, "Swim in Rising Water", "H", "swim-in-rising-water"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 7, title: "Dynamic programming", weeks: "Weeks 10-13",
-    drill: "Define the state in plain English. Define the transition. Define the base case. Then ask: why is this state sufficient? If your state misses information needed for the transition, the recurrence is wrong.",
-    topics: [
-      {
-        name: "1D DP",
-        refresh: ["State usually dp[i] = optimal answer ending at i or using first i", "Transitions look back at small constant number of prior states"],
-        probs: [
-          [70, "Climbing Stairs", "E", "climbing-stairs"],
-          [198, "House Robber", "M", "house-robber"],
-          [213, "House Robber II", "M", "house-robber-ii"],
-          [5, "Longest Palindromic Substring", "M", "longest-palindromic-substring"],
-          [647, "Palindromic Substrings", "M", "palindromic-substrings"],
-          [91, "Decode Ways", "M", "decode-ways"],
-          [322, "Coin Change", "M", "coin-change"],
-          [152, "Maximum Product Subarray", "M", "maximum-product-subarray"],
-          [139, "Word Break", "M", "word-break"],
-          [300, "Longest Increasing Subsequence", "M", "longest-increasing-subsequence"],
-          [416, "Partition Equal Subset Sum", "M", "partition-equal-subset-sum"]
-        ]
-      },
-      {
-        name: "2D and grid DP",
-        refresh: ["State dp[i][j] for two-sequence or grid problems", "String DP almost always lives here. Edit distance is the canonical example"],
-        probs: [
-          [62, "Unique Paths", "M", "unique-paths"],
-          [1143, "Longest Common Subsequence", "M", "longest-common-subsequence"],
-          [309, "Best Time to Buy Sell with Cooldown", "M", "best-time-to-buy-and-sell-stock-with-cooldown"],
-          [518, "Coin Change II", "M", "coin-change-ii"],
-          [494, "Target Sum", "M", "target-sum"],
-          [97, "Interleaving String", "M", "interleaving-string"],
-          [72, "Edit Distance", "M", "edit-distance"],
-          [329, "Longest Increasing Path in a Matrix", "H", "longest-increasing-path-in-a-matrix"],
-          [115, "Distinct Subsequences", "H", "distinct-subsequences"],
-          [312, "Burst Balloons", "H", "burst-balloons"],
-          [10, "Regular Expression Matching", "H", "regular-expression-matching"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 8, title: "Greedy and intervals", weeks: "Week 14",
-    drill: "State the exchange argument out loud. Why doesn't picking the locally best choice paint you into a corner globally? If you can't argue it, your greedy is just a guess.",
-    topics: [
-      {
-        name: "Greedy",
-        refresh: ["Sort by some key, then sweep. Prove optimality via exchange", "Common in scheduling, assignment, partitioning"],
-        probs: [
-          [53, "Maximum Subarray", "M", "maximum-subarray"],
-          [55, "Jump Game", "M", "jump-game"],
-          [45, "Jump Game II", "M", "jump-game-ii"],
-          [134, "Gas Station", "M", "gas-station"],
-          [846, "Hand of Straights", "M", "hand-of-straights"],
-          [763, "Partition Labels", "M", "partition-labels"],
-          [678, "Valid Parenthesis String", "M", "valid-parenthesis-string"]
-        ]
-      },
-      {
-        name: "Intervals",
-        refresh: ["Sort by start or end, sweep and maintain state", "Concurrent-count problems often want a heap or sweep line"],
-        probs: [
-          [57, "Insert Interval", "M", "insert-interval"],
-          [56, "Merge Intervals", "M", "merge-intervals"],
-          [435, "Non-overlapping Intervals", "M", "non-overlapping-intervals"],
-          [252, "Meeting Rooms", "E", "meeting-rooms"],
-          [253, "Meeting Rooms II", "M", "meeting-rooms-ii"],
-          [1851, "Minimum Interval to Include Each Query", "H", "minimum-interval-to-include-each-query"]
-        ]
-      }
-    ]
-  },
-  {
-    n: 9, title: "Heap, bits, math", weeks: "Weeks 15-16",
-    drill: "For heap problems, why do you need ordered access at this point but not full sort? For bit problems, write out the binary representation of a small case before coding.",
-    topics: [
-      {
-        name: "Heap and priority queue",
-        refresh: ["O(log n) push pop, O(1) peek. Use min-heap by default, negate for max", "Two-heap trick for running medians"],
-        probs: [
-          [703, "Kth Largest Element in a Stream", "E", "kth-largest-element-in-a-stream"],
-          [1046, "Last Stone Weight", "E", "last-stone-weight"],
-          [973, "K Closest Points to Origin", "M", "k-closest-points-to-origin"],
-          [215, "Kth Largest Element in an Array", "M", "kth-largest-element-in-an-array"],
-          [621, "Task Scheduler", "M", "task-scheduler"],
-          [295, "Find Median from Data Stream", "H", "find-median-from-data-stream"]
-        ]
-      },
-      {
-        name: "Bit manipulation",
-        refresh: ["XOR identities: a xor a = 0, a xor 0 = a. Use to find unpaired elements", "n and (n-1) clears the lowest set bit. Power of 2 check"],
-        probs: [
-          [136, "Single Number", "E", "single-number"],
-          [191, "Number of 1 Bits", "E", "number-of-1-bits"],
-          [338, "Counting Bits", "E", "counting-bits"],
-          [190, "Reverse Bits", "E", "reverse-bits"],
-          [268, "Missing Number", "E", "missing-number"],
-          [371, "Sum of Two Integers", "M", "sum-of-two-integers"]
-        ]
-      },
-      {
-        name: "Math and geometry",
-        refresh: ["Matrix problems: rotate, spiral, in-place modification", "Fast exponentiation, gcd, modular arithmetic basics"],
-        probs: [
-          [48, "Rotate Image", "M", "rotate-image"],
-          [54, "Spiral Matrix", "M", "spiral-matrix"],
-          [73, "Set Matrix Zeroes", "M", "set-matrix-zeroes"],
-          [50, "Pow(x, n)", "M", "powx-n"],
-          [43, "Multiply Strings", "M", "multiply-strings"]
-        ]
-      }
-    ]
-  }
+  {n:1, title:"Foundations reset", weeks:"Weeks 1-2",
+   drill:"State the invariant your data structure or pointers maintain. If you can't say it in one sentence, you don't actually understand it yet.",
+   topics:[
+    {name:"Arrays and hashing",
+     learn:{
+       intuition:"A hash map turns 'find this thing' from O(n) scanning into O(1) lookup. The trick is choosing what to store as the key and what as the value. For Two Sum, store value as key and index as value. Then for each new x you ask 'have I seen target minus x before' which is a O(1) question.",
+       invariant:"After processing index i, the map contains exactly the values at indices 0 to i-1 mapped to their indices. So when you query for the complement, you cannot accidentally pair an element with itself.",
+       why:"Each pair (a,b) is examined exactly once: when you reach the second element, the first is already in the map. Order matters: query BEFORE insert in the loop.",
+       template:"unordered_map<int,int> seen;\nfor (int i = 0; i < n; i++) {\n    int need = target - nums[i];\n    if (seen.count(need)) return {seen[need], i};\n    seen[nums[i]] = i;  // insert AFTER query\n}"
+     },
+     refresh:["Hash map = O(1) avg, but collisions exist","Patterns: frequency counting, complement lookup, set for de-dup"],
+     probs:[[1,"Two Sum","E","two-sum"],[217,"Contains Duplicate","E","contains-duplicate"],[242,"Valid Anagram","E","valid-anagram"],[49,"Group Anagrams","M","group-anagrams"],[347,"Top K Frequent Elements","M","top-k-frequent-elements"],[271,"Encode and Decode Strings","M","encode-and-decode-strings"],[238,"Product of Array Except Self","M","product-of-array-except-self"],[36,"Valid Sudoku","M","valid-sudoku"],[128,"Longest Consecutive Sequence","M","longest-consecutive-sequence"]]},
+    {name:"Two pointers",
+     learn:{
+       intuition:"When the array is sorted, place pointers at the two ends. If sum is too big, the largest contributor must shrink, so move right inward. If too small, move left inward. You're not skipping pairs randomly; you're proving the skipped pairs are strictly worse than what's still in range.",
+       invariant:"At any moment, the answer (if it exists) lies in nums[left..right]. Pairs outside this range have been eliminated by the move rule.",
+       why:"When you move a pointer inward, you eliminate at most one candidate pair, and prove that pair couldn't have been better. Each pointer moves at most n times. Total O(n).",
+       template:"int l = 0, r = n - 1;\nwhile (l < r) {\n    int s = nums[l] + nums[r];\n    if (s == target) return {l, r};\n    if (s < target) l++;\n    else r--;\n}"
+     },
+     refresh:["Needs sorted array or a monotonic property","Pointers converge because outside pairs are provably worse"],
+     probs:[[125,"Valid Palindrome","E","valid-palindrome"],[167,"Two Sum II","M","two-sum-ii-input-array-is-sorted"],[15,"3Sum","M","3sum"],[11,"Container With Most Water","M","container-with-most-water"],[42,"Trapping Rain Water","H","trapping-rain-water"]]},
+    {name:"Sliding window",
+     learn:{
+       intuition:"When a subarray problem has monotonic feasibility (if window valid, smaller windows inside it are too; or growing keeps invalid invalid), you don't need to check every (l,r) pair. Expand r greedily, contract l only when forced.",
+       invariant:"The window [l,r] currently satisfies the constraint. State inside (sum, char counts) is maintained incrementally, never rescanned.",
+       why:"Each pointer moves at most n times forward, never backward. Looks like nested loops but total work is O(n) amortized.",
+       template:"int l = 0, ans = 0;\nunordered_map<char,int> cnt;\nfor (int r = 0; r < n; r++) {\n    cnt[s[r]]++;\n    while (windowInvalid(cnt)) {\n        cnt[s[l]]--;\n        l++;\n    }\n    ans = max(ans, r - l + 1);\n}"
+     },
+     refresh:["Define expand and contract conditions explicitly","Maintain window state incrementally, not by rescanning"],
+     probs:[[121,"Best Time to Buy and Sell Stock","E","best-time-to-buy-and-sell-stock"],[3,"Longest Substring Without Repeating","M","longest-substring-without-repeating-characters"],[424,"Longest Repeating Character Replacement","M","longest-repeating-character-replacement"],[567,"Permutation in String","M","permutation-in-string"],[76,"Minimum Window Substring","H","minimum-window-substring"],[239,"Sliding Window Maximum","H","sliding-window-maximum"]]},
+    {name:"Prefix sum",
+     learn:{
+       intuition:"Precompute P[i] = sum of nums[0..i-1]. Then sum of range [i,j] is P[j+1] - P[i] in O(1). For 'subarray sum equals k', flip the question: you want P[j+1] - P[i] = k, so P[i] = P[j+1] - k. Scan with hashmap of seen prefix sums.",
+       invariant:"P[0] = 0. P[i+1] = P[i] + nums[i]. The map always contains all prefix sums seen strictly before current index.",
+       why:"Reduces range-sum to 'have I seen this value before' which hashmap answers in O(1). Total O(n).",
+       template:"unordered_map<long,int> seen{{0, 1}};  // empty prefix\nlong pre = 0;\nint ans = 0;\nfor (int x : nums) {\n    pre += x;\n    ans += seen[pre - k];\n    seen[pre]++;\n}"
+     },
+     refresh:["O(1) range query after O(n) precompute","Pair with hash map for subarray-sum-equals-k"],
+     probs:[[303,"Range Sum Query Immutable","E","range-sum-query-immutable"],[560,"Subarray Sum Equals K","M","subarray-sum-equals-k"],[525,"Contiguous Array","M","contiguous-array"],[523,"Continuous Subarray Sum","M","continuous-subarray-sum"],[1248,"Count Number of Nice Subarrays","M","count-number-of-nice-subarrays"]]}
+   ]},
+  {n:2, title:"Linear structures", weeks:"Week 3",
+   drill:"For monotonic stack, say out loud what invariant the stack maintains and why pushing or popping preserves it. If you can't, you've memorized not understood.",
+   topics:[
+    {name:"Stack and monotonic stack",
+     learn:{
+       intuition:"For 'next greater element' brute force is O(n^2). Observation: while scanning left to right, smaller elements after a bigger one are 'waiting' for their next greater. Keep them on a stack. When a bigger element arrives, pop everything smaller because their answer is now known.",
+       invariant:"The stack always contains indices whose values are in strictly decreasing order from bottom to top (for NGE; flip for next smaller).",
+       why:"Each index is pushed once and popped at most once. Total O(n), not O(n^2), because pops are amortized away.",
+       template:"stack<int> st;  // indices\nvector<int> ans(n, -1);\nfor (int i = 0; i < n; i++) {\n    while (!st.empty() && nums[st.top()] < nums[i]) {\n        ans[st.top()] = nums[i];\n        st.pop();\n    }\n    st.push(i);\n}"
+     },
+     refresh:["Monotonic stack: strictly increasing or decreasing","Pop while incoming dominates top, then push. Amortized O(n)"],
+     probs:[[20,"Valid Parentheses","E","valid-parentheses"],[155,"Min Stack","M","min-stack"],[150,"Evaluate Reverse Polish Notation","M","evaluate-reverse-polish-notation"],[22,"Generate Parentheses","M","generate-parentheses"],[739,"Daily Temperatures","M","daily-temperatures"],[503,"Next Greater Element II","M","next-greater-element-ii"],[853,"Car Fleet","M","car-fleet"],[84,"Largest Rectangle in Histogram","H","largest-rectangle-in-histogram"]]},
+    {name:"Linked list",
+     learn:{
+       intuition:"Reversing a list is rewriting next pointers. Need three references: prev (head of reversed prefix), curr (node being processed), saved nxt (so chain isn't lost when curr->next is overwritten).",
+       invariant:"At any moment, prev points to the reversed prefix head, curr to the next node to process. After the loop, prev is the new head.",
+       why:"Single pass O(n). Temporary nxt save allows in-place modification. Fast/slow cycle detection works because if a cycle exists, fast catches up by 1 per iteration inside it.",
+       template:"ListNode* prev = nullptr;\nListNode* curr = head;\nwhile (curr) {\n    ListNode* nxt = curr->next;\n    curr->next = prev;\n    prev = curr;\n    curr = nxt;\n}\nreturn prev;"
+     },
+     refresh:["Reversal: prev, curr, nxt triplet","Fast/slow for cycle and middle. Dummy head simplifies edge cases"],
+     probs:[[206,"Reverse Linked List","E","reverse-linked-list"],[21,"Merge Two Sorted Lists","E","merge-two-sorted-lists"],[141,"Linked List Cycle","E","linked-list-cycle"],[143,"Reorder List","M","reorder-list"],[19,"Remove Nth Node From End","M","remove-nth-node-from-end-of-list"],[138,"Copy List with Random Pointer","M","copy-list-with-random-pointer"],[2,"Add Two Numbers","M","add-two-numbers"],[287,"Find the Duplicate Number","M","find-the-duplicate-number"],[146,"LRU Cache","M","lru-cache"],[23,"Merge K Sorted Lists","H","merge-k-sorted-lists"],[25,"Reverse Nodes in K-Group","H","reverse-nodes-in-k-group"]]}
+   ]},
+  {n:3, title:"Binary search", weeks:"Week 4",
+   drill:"Name your search space and the monotonic predicate that lets you halve it. Off-by-one bugs come from sloppy invariants, not from forgetting syntax.",
+   topics:[
+    {name:"Classic binary search",
+     learn:{
+       intuition:"You're not just searching for a value. You're maintaining 'the answer lies in [lo, hi)' and halving the range. Off-by-one bugs come from being unclear whether bounds are inclusive or exclusive. Pick one convention and stick with it.",
+       invariant:"Half-open [lo, hi): answer index, if it exists, is in [lo, hi). After each iteration the range strictly shrinks but still contains the answer.",
+       why:"Log n because the range halves each step. mid = lo + (hi - lo) / 2 prevents overflow. First-true template returns smallest index where predicate becomes true.",
+       template:"int lo = 0, hi = n;  // half-open\nwhile (lo < hi) {\n    int mid = lo + (hi - lo) / 2;\n    if (check(mid)) hi = mid;\n    else lo = mid + 1;\n}\nreturn lo;  // first true, or n if none"
+     },
+     refresh:["Pick one interval convention and stick with it","First-true template handles most LC variants"],
+     probs:[[704,"Binary Search","E","binary-search"],[74,"Search a 2D Matrix","M","search-a-2d-matrix"],[153,"Find Minimum in Rotated Sorted Array","M","find-minimum-in-rotated-sorted-array"],[33,"Search in Rotated Sorted Array","M","search-in-rotated-sorted-array"],[981,"Time Based Key-Value Store","M","time-based-key-value-store"],[34,"Find First and Last Position","M","find-first-and-last-position-of-element-in-sorted-array"],[4,"Median of Two Sorted Arrays","H","median-of-two-sorted-arrays"]]},
+    {name:"Binary search on answer",
+     learn:{
+       intuition:"When the question is 'find min X such that Y is achievable' and you can verify 'is X achievable' in linear time, binary-search over X. The space isn't the array, it's the answer range.",
+       invariant:"There's some threshold T such that check(x) is false for x < T, true for x >= T. This monotonic feasibility is what allows halving.",
+       why:"Each check O(n). You do log(answer_range) checks. Total O(n log A) where A is answer range, regardless of array size.",
+       template:"int lo = 1, hi = maxVal;\nwhile (lo < hi) {\n    int mid = lo + (hi - lo) / 2;\n    if (canAchieve(mid)) hi = mid;\n    else lo = mid + 1;\n}\nreturn lo;"
+     },
+     refresh:["Search space is the answer range, not the input array","Predicate: can I achieve X? Monotonic feasibility required"],
+     probs:[[875,"Koko Eating Bananas","M","koko-eating-bananas"],[1011,"Capacity to Ship Packages","M","capacity-to-ship-packages-within-d-days"],[1482,"Minimum Days to Make Bouquets","M","minimum-number-of-days-to-make-m-bouquets"],[410,"Split Array Largest Sum","H","split-array-largest-sum"]]}
+   ]},
+  {n:4, title:"Trees", weeks:"Weeks 5-6",
+   drill:"For every tree recursion, write the contract for helper(node) before coding: what does it take, what does it return, what does the parent do with the return value.",
+   topics:[
+    {name:"Binary tree traversal",
+     learn:{
+       intuition:"Every tree problem reduces to 'what do I want from each child, and what do I return to my parent.' If you can answer that, the recursion writes itself. Pre/in/post differ only in WHERE you do work relative to recursive calls.",
+       invariant:"Post-order DP: each subtree is fully processed before its parent uses its result. So when computing for a node, child results are already correct.",
+       why:"Each node visited exactly once. Time O(n). Stack space O(h). Skewed trees O(n) space, balanced O(log n).",
+       template:"int dfs(TreeNode* node) {\n    if (!node) return 0;\n    int left = dfs(node->left);\n    int right = dfs(node->right);\n    // combine results\n    return resultForParent;\n}"
+     },
+     refresh:["Pre/in/post = WHERE the visit happens relative to children","BFS uses queue, DFS uses recursion or explicit stack"],
+     probs:[[226,"Invert Binary Tree","E","invert-binary-tree"],[104,"Maximum Depth","E","maximum-depth-of-binary-tree"],[543,"Diameter of Binary Tree","E","diameter-of-binary-tree"],[110,"Balanced Binary Tree","E","balanced-binary-tree"],[100,"Same Tree","E","same-tree"],[572,"Subtree of Another Tree","E","subtree-of-another-tree"],[102,"Level Order Traversal","M","binary-tree-level-order-traversal"],[199,"Right Side View","M","binary-tree-right-side-view"],[1448,"Count Good Nodes","M","count-good-nodes-in-binary-tree"],[105,"Construct Tree from Preorder and Inorder","M","construct-binary-tree-from-preorder-and-inorder-traversal"],[124,"Binary Tree Maximum Path Sum","H","binary-tree-maximum-path-sum"],[297,"Serialize and Deserialize Binary Tree","H","serialize-and-deserialize-binary-tree"]]},
+    {name:"BST",
+     learn:{
+       intuition:"BST property means in-order traversal yields a sorted sequence. So 'kth smallest' is walking in-order and counting. 'Validate BST' is checking each node's value lies strictly within bounds inherited from ancestors.",
+       invariant:"For every node: all values in left subtree strictly less, all in right strictly greater. Recursively.",
+       why:"Search/insert/delete are O(h). Balanced gives O(log n). Unbalanced degenerates to O(n).",
+       template:"bool valid(TreeNode* node, long lo, long hi) {\n    if (!node) return true;\n    if (node->val <= lo || node->val >= hi) return false;\n    return valid(node->left, lo, node->val)\n        && valid(node->right, node->val, hi);\n}"
+     },
+     refresh:["Invariant: left < node < right, recursively","In-order yields sorted sequence"],
+     probs:[[235,"LCA of BST","M","lowest-common-ancestor-of-a-binary-search-tree"],[98,"Validate BST","M","validate-binary-search-tree"],[230,"Kth Smallest in BST","M","kth-smallest-element-in-a-bst"]]},
+    {name:"Trie",
+     learn:{
+       intuition:"Tree where each node has up to 26 children (one per letter), may be marked 'word ends here'. Lookup is walking letter by letter. Prefix queries fall out for free.",
+       invariant:"Path from root to any node spells a prefix of some inserted word. Node marked isEnd means that prefix is a complete word.",
+       why:"O(L) per insert/search where L is word length. Independent of dictionary size. Great when matching many words.",
+       template:"struct Node { Node* ch[26] = {}; bool end = false; };\nvoid insert(Node* root, string& w) {\n    Node* cur = root;\n    for (char c : w) {\n        if (!cur->ch[c-'a']) cur->ch[c-'a'] = new Node();\n        cur = cur->ch[c-'a'];\n    }\n    cur->end = true;\n}"
+     },
+     refresh:["Tree of characters, nodes may terminate words","O(L) lookup, best for prefix queries"],
+     probs:[[208,"Implement Trie","M","implement-trie-prefix-tree"],[211,"Design Add and Search Words","M","design-add-and-search-words-data-structure"],[212,"Word Search II","H","word-search-ii"]]}
+   ]},
+  {n:5, title:"Recursion and backtracking", weeks:"Week 7",
+   drill:"Draw the decision tree on paper first. What is one decision at each level? When can you prune? If you can't draw it, you can't code it.",
+   topics:[
+    {name:"Backtracking",
+     learn:{
+       intuition:"Build the solution incrementally. At each step you have a set of choices. Pick one, recurse, then undo before picking the next. State = current partial solution plus remaining choices.",
+       invariant:"When a recursive call returns, the path and state are exactly what they were before the call. You've fully undone everything.",
+       why:"Worst case explores the full decision tree (exponential). Pruning makes it tractable. For duplicates: sort, then skip nums[i] if i > start && nums[i] == nums[i-1].",
+       template:"void bt(vector<int>& path, int start) {\n    result.push_back(path);\n    for (int i = start; i < n; i++) {\n        path.push_back(nums[i]);\n        bt(path, i + 1);\n        path.pop_back();  // undo\n    }\n}"
+     },
+     refresh:["Choose, explore, unchoose","Sort + skip duplicates for dedup"],
+     probs:[[78,"Subsets","M","subsets"],[39,"Combination Sum","M","combination-sum"],[40,"Combination Sum II","M","combination-sum-ii"],[90,"Subsets II","M","subsets-ii"],[46,"Permutations","M","permutations"],[47,"Permutations II","M","permutations-ii"],[79,"Word Search","M","word-search"],[131,"Palindrome Partitioning","M","palindrome-partitioning"],[17,"Letter Combinations of a Phone Number","M","letter-combinations-of-a-phone-number"],[51,"N-Queens","H","n-queens"]]}
+   ]},
+  {n:6, title:"Graphs", weeks:"Weeks 8-9",
+   drill:"What is a node? What is an edge? Are you given the graph or constructing it? Many graph problems disguise themselves as grids or strings.",
+   topics:[
+    {name:"BFS and DFS",
+     learn:{
+       intuition:"Maintain a frontier of nodes to visit plus a visited set. BFS uses a queue, gives shortest path in unweighted graphs because it processes nodes in distance order. DFS uses stack or recursion, useful for connectivity and post-order processing.",
+       invariant:"BFS: nodes in queue are ordered by distance from source. When you pop a node, its distance is final. Each node enqueued at most once.",
+       why:"Each node visited once, each edge examined twice (undirected) or once (directed). Total O(V+E). Multi-source BFS: enqueue all sources at start with dist 0.",
+       template:"queue<pair<int,int>> q;\nvector<vector<bool>> vis(m, vector<bool>(n));\nq.push({sr, sc}); vis[sr][sc] = true;\nwhile (!q.empty()) {\n    auto [r, c] = q.front(); q.pop();\n    for (auto [dr, dc] : dirs) {\n        int nr = r+dr, nc = c+dc;\n        if (ok(nr,nc) && !vis[nr][nc]) {\n            vis[nr][nc] = true;\n            q.push({nr, nc});\n        }\n    }\n}"
+     },
+     refresh:["BFS gives shortest path on unweighted graphs","Always maintain visited; multi-source = enqueue all sources upfront"],
+     probs:[[200,"Number of Islands","M","number-of-islands"],[695,"Max Area of Island","M","max-area-of-island"],[133,"Clone Graph","M","clone-graph"],[417,"Pacific Atlantic Water Flow","M","pacific-atlantic-water-flow"],[130,"Surrounded Regions","M","surrounded-regions"],[994,"Rotting Oranges","M","rotting-oranges"],[286,"Walls and Gates","M","walls-and-gates"],[127,"Word Ladder","H","word-ladder"]]},
+    {name:"Topological sort",
+     learn:{
+       intuition:"A DAG can be linearized so all edges point forward. Either repeatedly remove zero-in-degree nodes (Kahn), or DFS and reverse post-order. Cycle detection falls out for free: can't process all nodes means a cycle exists.",
+       invariant:"Kahn: nodes in queue have all prerequisites already output. Output order respects all edge directions.",
+       why:"Each node visited once, each edge decremented once. Total O(V+E). Output size less than V means cycle.",
+       template:"vector<int> indeg(n, 0);\nfor (auto& [u,v] : edges) { adj[u].push_back(v); indeg[v]++; }\nqueue<int> q;\nfor (int i = 0; i < n; i++) if (!indeg[i]) q.push(i);\nvector<int> order;\nwhile (!q.empty()) {\n    int u = q.front(); q.pop();\n    order.push_back(u);\n    for (int v : adj[u]) if (--indeg[v] == 0) q.push(v);\n}\nif (order.size() != n) return {};  // cycle"
+     },
+     refresh:["Kahn uses in-degrees and BFS","DFS post-order also works; cycle detection free"],
+     probs:[[207,"Course Schedule","M","course-schedule"],[210,"Course Schedule II","M","course-schedule-ii"],[269,"Alien Dictionary","H","alien-dictionary"]]},
+    {name:"Union find",
+     learn:{
+       intuition:"Each element points to a parent. Root of each component points to itself. union(a,b) merges two roots. find(x) walks up to the root. Two tricks make it near O(1): path compression (flatten on find) and union by rank (smaller tree under larger).",
+       invariant:"parent[root] == root. Following parent always terminates at a root. Two elements in same component iff same root.",
+       why:"Amortized inverse Ackermann (effectively O(1) per op). Without optimization, O(n) per find worst case.",
+       template:"vector<int> par(n), rnk(n, 0);\niota(par.begin(), par.end(), 0);\nfunction<int(int)> find = [&](int x) {\n    return par[x] == x ? x : par[x] = find(par[x]);\n};\nauto unite = [&](int a, int b) {\n    a = find(a); b = find(b);\n    if (a == b) return false;\n    if (rnk[a] < rnk[b]) swap(a, b);\n    par[b] = a;\n    if (rnk[a] == rnk[b]) rnk[a]++;\n    return true;\n};"
+     },
+     refresh:["find + path compression, union by rank","Use for repeated same-group queries"],
+     probs:[[547,"Number of Provinces","M","number-of-provinces"],[684,"Redundant Connection","M","redundant-connection"],[261,"Graph Valid Tree","M","graph-valid-tree"],[721,"Accounts Merge","M","accounts-merge"]]},
+    {name:"Shortest path",
+     learn:{
+       intuition:"Dijkstra greedily extracts the unsettled node with smallest tentative distance. Once extracted, that distance is final, because any other path must go through a node with greater tentative distance (given non-negative edges).",
+       invariant:"Settled nodes have correct final shortest distance. PQ holds tentative distances for unsettled nodes. Always extract minimum.",
+       why:"Non-negative edges mean a settled distance can never improve. With binary heap: O((V+E) log V). For negative edges, Dijkstra fails; use Bellman-Ford at O(VE).",
+       template:"vector<long> dist(n, LLONG_MAX);\npriority_queue<pair<long,int>, vector<pair<long,int>>, greater<>> pq;\ndist[src] = 0; pq.push({0, src});\nwhile (!pq.empty()) {\n    auto [d, u] = pq.top(); pq.pop();\n    if (d > dist[u]) continue;\n    for (auto [v, w] : adj[u]) {\n        if (dist[u] + w < dist[v]) {\n            dist[v] = dist[u] + w;\n            pq.push({dist[v], v});\n        }\n    }\n}"
+     },
+     refresh:["Dijkstra: PQ, non-negative weights","Bellman-Ford handles negatives, O(VE)"],
+     probs:[[743,"Network Delay Time","M","network-delay-time"],[787,"Cheapest Flights Within K Stops","M","cheapest-flights-within-k-stops"],[1631,"Path With Minimum Effort","M","path-with-minimum-effort"],[778,"Swim in Rising Water","H","swim-in-rising-water"]]}
+   ]},
+  {n:7, title:"Dynamic programming", weeks:"Weeks 10-13",
+   drill:"Define the state in plain English. Define the transition. Define the base case. Then ask: why is this state sufficient? If it misses information needed for the transition, the recurrence is wrong.",
+   topics:[
+    {name:"1D DP",
+     learn:{
+       intuition:"dp[i] = optimal answer for the subproblem 'ending at index i' or 'using the first i elements'. The recurrence asks: what was the last decision that got me to state i? Each possible last decision gives a term in the max/min/sum.",
+       invariant:"By the time you compute dp[i], all dp[j] for j < i are already computed and correct. Order of computation respects the dependency.",
+       why:"Each state computed once. If transitions are O(1) (look back at constant number of prior states), total O(n). Space often reducible to O(1) by keeping only last few values.",
+       template:"// House Robber\nint rob = 0, skip = 0;\nfor (int x : nums) {\n    int newRob = skip + x;\n    int newSkip = max(rob, skip);\n    rob = newRob;\n    skip = newSkip;\n}\nreturn max(rob, skip);"
+     },
+     refresh:["dp[i] = optimal answer ending at/using first i","Transitions look back constant number of prior states"],
+     probs:[[70,"Climbing Stairs","E","climbing-stairs"],[198,"House Robber","M","house-robber"],[213,"House Robber II","M","house-robber-ii"],[5,"Longest Palindromic Substring","M","longest-palindromic-substring"],[647,"Palindromic Substrings","M","palindromic-substrings"],[91,"Decode Ways","M","decode-ways"],[322,"Coin Change","M","coin-change"],[152,"Maximum Product Subarray","M","maximum-product-subarray"],[139,"Word Break","M","word-break"],[300,"Longest Increasing Subsequence","M","longest-increasing-subsequence"],[416,"Partition Equal Subset Sum","M","partition-equal-subset-sum"]]},
+    {name:"2D and grid DP",
+     learn:{
+       intuition:"dp[i][j] = answer using first i of one input and first j of another. Transitions consider: was element i in the answer? Was element j? Both? Neither? Table filled in order that respects dependencies (typically top-left to bottom-right).",
+       invariant:"dp[i][j] depends only on dp[i-1][j], dp[i][j-1], or dp[i-1][j-1]. When you compute dp[i][j], dependencies already computed.",
+       why:"m*n cells, each O(1). Total O(mn). String DP almost always lives here. Common in edit distance, LCS, substring matching.",
+       template:"// LCS\nvector<vector<int>> dp(m+1, vector<int>(n+1, 0));\nfor (int i = 1; i <= m; i++)\n    for (int j = 1; j <= n; j++)\n        if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;\n        else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);\nreturn dp[m][n];"
+     },
+     refresh:["dp[i][j] for two-sequence or grid problems","String DP lives here; edit distance canonical"],
+     probs:[[62,"Unique Paths","M","unique-paths"],[1143,"Longest Common Subsequence","M","longest-common-subsequence"],[309,"Best Time to Buy Sell with Cooldown","M","best-time-to-buy-and-sell-stock-with-cooldown"],[518,"Coin Change II","M","coin-change-ii"],[494,"Target Sum","M","target-sum"],[97,"Interleaving String","M","interleaving-string"],[72,"Edit Distance","M","edit-distance"],[329,"Longest Increasing Path in a Matrix","H","longest-increasing-path-in-a-matrix"],[115,"Distinct Subsequences","H","distinct-subsequences"],[312,"Burst Balloons","H","burst-balloons"],[10,"Regular Expression Matching","H","regular-expression-matching"]]}
+   ]},
+  {n:8, title:"Greedy and intervals", weeks:"Week 14",
+   drill:"State the exchange argument out loud. Why doesn't picking the locally best choice paint you into a corner globally? If you can't argue it, your greedy is just a guess.",
+   topics:[
+    {name:"Greedy",
+     learn:{
+       intuition:"A greedy choice is 'best locally, then trust the rest works out'. Proof technique is the exchange argument: show any non-greedy choice can be swapped for the greedy one without making the answer worse. If you can't construct that swap, your greedy is probably wrong.",
+       invariant:"After each greedy choice, the remaining subproblem is still solvable optimally with greedy. The choice doesn't burn bridges.",
+       why:"When exchange argument holds, greedy gives optimal. When it doesn't, greedy is a heuristic with counterexamples. If a counterexample comes to mind, drop greedy and reach for DP.",
+       template:"// Jump Game: track furthest reachable\nint maxReach = 0;\nfor (int i = 0; i < n; i++) {\n    if (i > maxReach) return false;\n    maxReach = max(maxReach, i + nums[i]);\n}\nreturn true;"
+     },
+     refresh:["Sort by key, sweep, prove via exchange","Common in scheduling, assignment, partitioning"],
+     probs:[[53,"Maximum Subarray","M","maximum-subarray"],[55,"Jump Game","M","jump-game"],[45,"Jump Game II","M","jump-game-ii"],[134,"Gas Station","M","gas-station"],[846,"Hand of Straights","M","hand-of-straights"],[763,"Partition Labels","M","partition-labels"],[678,"Valid Parenthesis String","M","valid-parenthesis-string"]]},
+    {name:"Intervals",
+     learn:{
+       intuition:"Sort intervals by start (or end, depending on problem). Sweep left to right, maintaining small state. Merge, skip, or count based on relationship between current and previous interval.",
+       invariant:"After processing intervals[0..i], answer so far is optimal for the prefix. Future intervals start at position >= current intervals[i].start.",
+       why:"Sort O(n log n). Sweep O(n). Total O(n log n). For 'minimum rooms' style, min-heap of end times handles concurrent intervals.",
+       template:"sort(iv.begin(), iv.end());\nvector<vector<int>> ans = {iv[0]};\nfor (int i = 1; i < iv.size(); i++) {\n    if (iv[i][0] <= ans.back()[1])\n        ans.back()[1] = max(ans.back()[1], iv[i][1]);\n    else\n        ans.push_back(iv[i]);\n}"
+     },
+     refresh:["Sort by start or end, sweep, maintain state","Concurrent count problems want a heap or sweep line"],
+     probs:[[57,"Insert Interval","M","insert-interval"],[56,"Merge Intervals","M","merge-intervals"],[435,"Non-overlapping Intervals","M","non-overlapping-intervals"],[252,"Meeting Rooms","E","meeting-rooms"],[253,"Meeting Rooms II","M","meeting-rooms-ii"],[1851,"Minimum Interval to Include Each Query","H","minimum-interval-to-include-each-query"]]}
+   ]},
+  {n:9, title:"Heap, bits, math", weeks:"Weeks 15-16",
+   drill:"For heap problems, why do you need ordered access at this point but not full sort? For bit problems, write out the binary representation of a small case before coding.",
+   topics:[
+    {name:"Heap and priority queue",
+     learn:{
+       intuition:"When you need 'always give me the smallest (or largest) of the current set, with insertions and removals over time', heap gives O(log n) per op. Don't reach for it when you only need to sort once. Two-heap trick (max + min) gives running medians.",
+       invariant:"Min-heap: every parent <= both children. Root is the minimum. After extract-min, sift-down restores property. Complete binary tree.",
+       why:"Binary tree of height log n. Push and pop bubble up/down through that height. O(log n) per op. Build-heap from array is O(n) via bottom-up sift.",
+       template:"// Kth largest\npriority_queue<int, vector<int>, greater<int>> minHeap;\nfor (int x : nums) {\n    minHeap.push(x);\n    if (minHeap.size() > k) minHeap.pop();\n}\nreturn minHeap.top();"
+     },
+     refresh:["O(log n) push/pop, O(1) peek","Two-heap trick for running medians"],
+     probs:[[703,"Kth Largest Element in a Stream","E","kth-largest-element-in-a-stream"],[1046,"Last Stone Weight","E","last-stone-weight"],[973,"K Closest Points to Origin","M","k-closest-points-to-origin"],[215,"Kth Largest Element in an Array","M","kth-largest-element-in-an-array"],[621,"Task Scheduler","M","task-scheduler"],[295,"Find Median from Data Stream","H","find-median-from-data-stream"]]},
+    {name:"Bit manipulation",
+     learn:{
+       intuition:"A number is a sequence of bits. XOR sets bits where exactly one operand has them set. The handful of identities (a^a=0, a^0=a, n&(n-1) clears lowest set bit) cover most LC problems. For subset enumeration, treat mask as 'which elements included'.",
+       invariant:"XOR is commutative and associative. So XOR of all elements where every value appears twice equals 0. The one element appearing once survives.",
+       why:"Paired values cancel via XOR. n & (n-1) drops the lowest 1-bit, so repeated application counts bits in O(popcount) time.",
+       template:"// Single number\nint x = 0;\nfor (int n : nums) x ^= n;\nreturn x;"
+     },
+     refresh:["XOR identities: a^a=0, a^0=a","n & (n-1) clears lowest set bit"],
+     probs:[[136,"Single Number","E","single-number"],[191,"Number of 1 Bits","E","number-of-1-bits"],[338,"Counting Bits","E","counting-bits"],[190,"Reverse Bits","E","reverse-bits"],[268,"Missing Number","E","missing-number"],[371,"Sum of Two Integers","M","sum-of-two-integers"]]},
+    {name:"Math and geometry",
+     learn:{
+       intuition:"Pow(x,n) in O(log n) by repeated squaring: x^n equals (x^(n/2))^2 if n even, x * x^(n-1) if odd. Most matrix problems (rotate, spiral, in-place) are exercises in careful index arithmetic.",
+       invariant:"Pow loop: ans is accumulated result, x is current squared base, n is remaining exponent. After each iteration n halves.",
+       why:"Halving exponent gives log n iterations. Same idea applies to fast exponentiation modulo, matrix exponentiation, etc.",
+       template:"double myPow(double x, long n) {\n    if (n < 0) { x = 1.0 / x; n = -n; }\n    double ans = 1.0;\n    while (n) {\n        if (n & 1) ans *= x;\n        x *= x;\n        n >>= 1;\n    }\n    return ans;\n}"
+     },
+     refresh:["Matrix: rotate, spiral, in-place","Fast exponentiation, gcd, modular arithmetic"],
+     probs:[[48,"Rotate Image","M","rotate-image"],[54,"Spiral Matrix","M","spiral-matrix"],[73,"Set Matrix Zeroes","M","set-matrix-zeroes"],[50,"Pow(x, n)","M","powx-n"],[43,"Multiply Strings","M","multiply-strings"]]}
+   ]}
 ];
 
 const MANTRAS = [
@@ -932,35 +509,56 @@ const MANTRAS = [
   "If you can't explain the invariant, you don't know it.",
   "Reading editorials is not solving. Re-solving from blank is.",
   "Pattern matching is the failure mode. Pattern building is the goal.",
-  "5-6 hours a week, every week. Steady beats binges.",
+  "5 to 6 hours a week, every week. Steady beats binges.",
   "The contest doesn't tell you the tag. Train for that.",
-  "One unsolved problem upsolved fully beats ten problems half-understood.",
+  "One problem upsolved fully beats ten problems half understood.",
   "If you give up this week, none of the previous weeks count.",
   "Sit. Open the file. Open one problem. The rest follows.",
   "The interview will not warn you. Train as if every round is round one."
 ];
 
-const STORE_KEY = 'fanz3r-dsa-tracker-v1';
+const STORE_KEY = 'fanz3r-dsa-tracker-v2';
+const SYNC_KEY = 'fanz3r-dsa-tracker-sync-v2';
 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (!raw) return {done: {}, notes: {}, days: [], lastSession: null};
-    return JSON.parse(raw);
+    if (!raw) return {done:{}, notes:{}, understood:{}, days:[], lastSession:null};
+    const s = JSON.parse(raw);
+    if (!s.understood) s.understood = {};
+    if (!s.notes) s.notes = {};
+    if (!s.done) s.done = {};
+    if (!s.days) s.days = [];
+    return s;
   } catch (e) {
-    return {done: {}, notes: {}, days: [], lastSession: null};
+    return {done:{}, notes:{}, understood:{}, days:[], lastSession:null};
   }
 }
 
-function saveState() {
+function saveState(skipSync) {
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    if (!skipSync) queueGistSync();
   } catch (e) {
     toast('Could not save. Storage full?', 'err');
   }
 }
 
+function loadSyncConfig() {
+  try {
+    const raw = localStorage.getItem(SYNC_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+function saveSyncConfig(cfg) {
+  localStorage.setItem(SYNC_KEY, JSON.stringify(cfg));
+}
+
 let state = loadState();
+let syncConfig = loadSyncConfig();
+let syncTimer = null;
+let syncing = false;
 
 function todayKey() {
   const d = new Date();
@@ -982,17 +580,11 @@ function computeStreak() {
   const sorted = [...state.days].sort();
   let streak = 0;
   let cursor = new Date();
-  if (!sorted.includes(today)) {
-    cursor.setDate(cursor.getDate() - 1);
-  }
+  if (!sorted.includes(today)) cursor.setDate(cursor.getDate() - 1);
   while (true) {
     const k = cursor.getFullYear() + '-' + String(cursor.getMonth()+1).padStart(2,'0') + '-' + String(cursor.getDate()).padStart(2,'0');
-    if (sorted.includes(k)) {
-      streak++;
-      cursor.setDate(cursor.getDate() - 1);
-    } else {
-      break;
-    }
+    if (sorted.includes(k)) { streak++; cursor.setDate(cursor.getDate() - 1); }
+    else break;
   }
   return streak;
 }
@@ -1010,19 +602,15 @@ function doneCount() {
 function todaySolved() {
   const t = todayKey();
   let count = 0;
-  for (const id in state.done) {
-    if (state.done[id] && state.done[id] === t) count++;
-  }
+  for (const id in state.done) if (state.done[id] === t) count++;
   return count;
 }
 
 function phaseStats(phase) {
   let total = 0, done = 0;
-  for (const t of phase.topics) {
-    for (const p of t.probs) {
-      total++;
-      if (state.done[p[0]]) done++;
-    }
+  for (const t of phase.topics) for (const p of t.probs) {
+    total++;
+    if (state.done[p[0]]) done++;
   }
   return {total, done, pct: total === 0 ? 0 : Math.round(100 * done / total)};
 }
@@ -1050,29 +638,63 @@ function nextProblems(n) {
 }
 
 function toggleProblem(id) {
-  if (state.done[id]) {
-    delete state.done[id];
+  if (state.done[id]) delete state.done[id];
+  else { state.done[id] = todayKey(); markActivity(); }
+  saveState();
+  render();
+}
+
+let justUnderstood = null;
+
+function toggleUnderstood(key) {
+  if (state.understood[key]) {
+    delete state.understood[key];
+    justUnderstood = null;
   } else {
-    state.done[id] = todayKey();
-    markActivity();
+    state.understood[key] = true;
+    justUnderstood = key;
   }
   saveState();
   render();
 }
 
-function diffPill(d) {
-  return `<span class="diff ${d}">${d}</span>`;
+function diffPill(d) { return '<span class="diff ' + d + '">' + d + '</span>'; }
+
+function escapeHTML(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function probHTML(p, topicName) {
+function probHTML(p) {
   const [id, name, diff, slug] = p;
   const done = state.done[id];
-  return `<div class="prob ${done ? 'done' : ''}" data-id="${id}">
-    <div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-    <span class="prob-num">LC ${id}</span>
-    <span class="prob-name"><a href="https://leetcode.com/problems/${slug}/" target="_blank" rel="noopener">${name}</a></span>
-    ${diffPill(diff)}
-  </div>`;
+  return '<div class="prob ' + (done ? 'done' : '') + '" data-id="' + id + '">' +
+    '<div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>' +
+    '<span class="prob-num">LC ' + id + '</span>' +
+    '<span class="prob-name"><a href="https://leetcode.com/problems/' + slug + '/" target="_blank" rel="noopener">' + escapeHTML(name) + '</a></span>' +
+    diffPill(diff) + '</div>';
+}
+
+function learnHTML(phase, topic, idx) {
+  const key = 'p' + phase.n + '-t' + idx;
+  const understood = !!state.understood[key];
+  const l = topic.learn;
+  return '<div class="learn" data-learn-key="' + key + '">' +
+    '<div class="learn-head">' +
+      '<span class="learn-tag">LEARN</span>' +
+      '<span class="learn-summary">Intuition, invariant, why it works, template</span>' +
+      '<span class="learn-status ' + (understood ? 'done' : '') + '">' + (understood ? '\u2713 understood' : '') + '</span>' +
+      '<span class="learn-chev">\u203A</span>' +
+    '</div>' +
+    '<div class="learn-body">' +
+      '<div class="learn-section"><div class="learn-section-label">INTUITION</div><div class="learn-section-body">' + escapeHTML(l.intuition) + '</div></div>' +
+      '<div class="learn-section"><div class="learn-section-label">INVARIANT</div><div class="learn-section-body">' + escapeHTML(l.invariant) + '</div></div>' +
+      '<div class="learn-section"><div class="learn-section-label">WHY IT WORKS</div><div class="learn-section-body">' + escapeHTML(l.why) + '</div></div>' +
+      '<div class="learn-section"><div class="learn-section-label">C++ TEMPLATE</div><pre class="tmpl">' + escapeHTML(l.template) + '</pre></div>' +
+      '<div class="understood-row ' + (understood ? 'checked' : '') + '" data-understood-key="' + key + '">' +
+        '<div class="understood-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>' +
+        '<span class="understood-label">I can teach this back without looking</span>' +
+      '</div>' +
+    '</div></div>';
 }
 
 function topicHTML(phase, topic, idx) {
@@ -1080,55 +702,46 @@ function topicHTML(phase, topic, idx) {
   for (const p of topic.probs) if (state.done[p[0]]) done++;
   const total = topic.probs.length;
   const complete = done === total;
-  const noteKey = `p${phase.n}-t${idx}`;
+  const noteKey = 'p' + phase.n + '-t' + idx;
   const noteVal = state.notes[noteKey] || '';
   const noteOpen = noteVal.length > 0;
-  return `<div class="topic">
-    <div class="topic-head">
-      <span class="topic-name">${topic.name}</span>
-      <span class="topic-stat ${complete ? 'complete' : ''}">${done}/${total}</span>
-    </div>
-    <ul class="refresh">${topic.refresh.map(r => `<li>${r}</li>`).join('')}</ul>
-    <div class="problems">${topic.probs.map(p => probHTML(p, topic.name)).join('')}</div>
-    <div class="notes-wrap ${noteOpen ? 'open' : ''}">
-      <button class="notes-toggle">PATTERN NOTES ${noteVal ? '·' : ''} ${noteVal ? noteVal.length+' chars' : ''}</button>
-      <textarea class="notes-area" data-key="${noteKey}" placeholder="Write the pattern in your own words. What is the invariant? Why does it work? Your future self reviews this before interviews.">${noteVal}</textarea>
-    </div>
-  </div>`;
+  return '<div class="topic">' +
+    '<div class="topic-head">' +
+      '<span class="topic-name">' + escapeHTML(topic.name) + '</span>' +
+      '<span class="topic-stat ' + (complete ? 'complete' : '') + '">' + done + '/' + total + '</span>' +
+    '</div>' +
+    learnHTML(phase, topic, idx) +
+    '<ul class="refresh">' + topic.refresh.map(r => '<li>' + escapeHTML(r) + '</li>').join('') + '</ul>' +
+    '<div class="problems">' + topic.probs.map(probHTML).join('') + '</div>' +
+    '<div class="notes-wrap ' + (noteOpen ? 'open' : '') + '">' +
+      '<button class="notes-toggle">PATTERN NOTES ' + (noteVal ? '\u00B7 ' + noteVal.length + ' chars' : '') + '</button>' +
+      '<textarea class="notes-area" data-key="' + noteKey + '" placeholder="Write the pattern in your own words. Invariant? Why does it work? Future you reads this before interviews.">' + escapeHTML(noteVal) + '</textarea>' +
+    '</div></div>';
 }
 
 function phaseHTML(phase) {
   const s = phaseStats(phase);
   const complete = s.done === s.total;
-  return `<div class="phase ${complete ? 'done' : ''}" data-phase="${phase.n}">
-    <div class="phase-head-row">
-      <span class="phase-num">P${phase.n}</span>
-      <span class="phase-title">${phase.title}</span>
-      <div class="phase-bar-mini ${complete ? 'done' : ''}"><div class="phase-bar-mini-fill" style="width:${s.pct}%"></div></div>
-      <span class="phase-pct">${s.pct}%</span>
-      <span class="phase-chev">›</span>
-    </div>
-    <div class="phase-body">
-      <div class="drill"><span class="label">DRILL</span>${phase.drill}</div>
-      ${phase.topics.map((t, i) => topicHTML(phase, t, i)).join('')}
-    </div>
-  </div>`;
+  return '<div class="phase ' + (complete ? 'done' : '') + '" data-phase="' + phase.n + '">' +
+    '<div class="phase-head-row">' +
+      '<span class="phase-num">P' + phase.n + '</span>' +
+      '<span class="phase-title">' + escapeHTML(phase.title) + '</span>' +
+      '<div class="phase-bar-mini ' + (complete ? 'done' : '') + '"><div class="phase-bar-mini-fill" style="width:' + s.pct + '%"></div></div>' +
+      '<span class="phase-pct">' + s.pct + '%</span>' +
+      '<span class="phase-chev">\u203A</span>' +
+    '</div>' +
+    '<div class="phase-body">' +
+      '<div class="drill"><span class="label">DRILL</span>' + escapeHTML(phase.drill) + '</div>' +
+      phase.topics.map((t, i) => topicHTML(phase, t, i)).join('') +
+    '</div></div>';
 }
 
 function nextUpHTML() {
   const next = nextProblems(5);
   if (next.length === 0) {
-    return `<div style="color: var(--ok); font-family: var(--font-mono); font-size: 13px;">All problems complete. Now go give 5 interviews.</div>`;
+    return '<div style="color: var(--ok); font-family: var(--font-mono); font-size: 13px;">All problems complete. Now go give 5 interviews.</div>';
   }
-  return next.map(item => {
-    const [id, name, diff, slug] = item.prob;
-    return `<div class="prob" data-id="${id}">
-      <div class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-      <span class="prob-num">LC ${id}</span>
-      <span class="prob-name"><a href="https://leetcode.com/problems/${slug}/" target="_blank" rel="noopener">${name}</a></span>
-      ${diffPill(diff)}
-    </div>`;
-  }).join('');
+  return next.map(item => probHTML(item.prob)).join('');
 }
 
 function render() {
@@ -1142,9 +755,7 @@ function render() {
   document.getElementById('meta-done').textContent = done;
   document.getElementById('meta-total').textContent = total;
   document.getElementById('meta-streak').textContent = streak;
-  const totalMax = document.getElementById('stat-total-max');
-  if (totalMax) totalMax.textContent = total;
-
+  document.getElementById('stat-total-max').textContent = total;
   document.getElementById('hero-label').textContent = allDone ? 'COMPLETE' : 'CURRENTLY IN';
   document.getElementById('hero-title').textContent = cur.title;
   document.getElementById('hero-weeks').textContent = cur.weeks;
@@ -1153,44 +764,61 @@ function render() {
   document.getElementById('hero-fill').style.width = curStats.pct + '%';
   document.getElementById('hero-done').textContent = curStats.done;
   document.getElementById('hero-pct').textContent = curStats.pct + '%';
-
   document.getElementById('stat-streak').textContent = streak;
   document.getElementById('stat-total').textContent = done;
   document.getElementById('stat-today').textContent = todaySolved();
   document.getElementById('stat-phase').textContent = cur.n;
-
   document.getElementById('next-list').innerHTML = nextUpHTML();
   const nextEl = document.getElementById('next-up');
-  if (allDone) nextEl.classList.add('empty');
-  else nextEl.classList.remove('empty');
+  if (allDone) nextEl.classList.add('empty'); else nextEl.classList.remove('empty');
   document.getElementById('next-head').textContent = allDone ? 'DONE' : 'NEXT UP';
 
   const phasesEl = document.getElementById('phases');
-  const previouslyOpen = new Set();
-  phasesEl.querySelectorAll('.phase.open').forEach(el => previouslyOpen.add(el.dataset.phase));
+  const openPhases = new Set();
+  phasesEl.querySelectorAll('.phase.open').forEach(el => openPhases.add(el.dataset.phase));
+  const openLearns = new Set();
+  phasesEl.querySelectorAll('.learn.open').forEach(el => openLearns.add(el.dataset.learnKey));
   phasesEl.innerHTML = PLAN.map(phaseHTML).join('');
-  if (previouslyOpen.size === 0) {
-    const curEl = phasesEl.querySelector(`[data-phase="${cur.n}"]`);
+  if (openPhases.size === 0) {
+    const curEl = phasesEl.querySelector('[data-phase="' + cur.n + '"]');
     if (curEl) curEl.classList.add('open');
   } else {
-    previouslyOpen.forEach(n => {
-      const el = phasesEl.querySelector(`[data-phase="${n}"]`);
+    openPhases.forEach(n => {
+      const el = phasesEl.querySelector('[data-phase="' + n + '"]');
       if (el) el.classList.add('open');
     });
   }
+  phasesEl.querySelectorAll('.learn').forEach(el => {
+    const key = el.dataset.learnKey;
+    const understood = !!state.understood[key];
+    if (key === justUnderstood) {
+      el.classList.remove('open');
+    } else if (openLearns.has(key)) {
+      el.classList.add('open');
+    } else if (!understood) {
+      el.classList.add('open');
+    } else {
+      el.classList.remove('open');
+    }
+  });
+  justUnderstood = null;
 
-  document.getElementById('plan-count').textContent = `${done}/${total} · ${Math.round(100*done/total)}%`;
+  document.getElementById('plan-count').textContent = done + '/' + total + ' \u00B7 ' + Math.round(100*done/total) + '%';
+  document.getElementById('mantra').innerHTML = '\u00AB ' + MANTRAS[Math.floor(Math.random() * MANTRAS.length)] + ' \u00BB';
 
-  document.getElementById('mantra').innerHTML = `&laquo; ${MANTRAS[Math.floor(Math.random() * MANTRAS.length)]} &raquo;`;
-
+  updateSyncDot();
   attachHandlers();
 }
 
 function attachHandlers() {
   document.querySelectorAll('.phase-head-row').forEach(el => {
-    el.onclick = () => {
-      el.parentElement.classList.toggle('open');
-    };
+    el.onclick = () => el.parentElement.classList.toggle('open');
+  });
+  document.querySelectorAll('.learn-head').forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); el.parentElement.classList.toggle('open'); };
+  });
+  document.querySelectorAll('.understood-row').forEach(el => {
+    el.onclick = (e) => { e.stopPropagation(); toggleUnderstood(el.dataset.understoodKey); };
   });
   document.querySelectorAll('.prob').forEach(el => {
     el.onclick = (e) => {
@@ -1202,16 +830,11 @@ function attachHandlers() {
     btn.onclick = (e) => {
       e.stopPropagation();
       btn.parentElement.classList.toggle('open');
-      if (btn.parentElement.classList.contains('open')) {
-        btn.parentElement.querySelector('textarea').focus();
-      }
+      if (btn.parentElement.classList.contains('open')) btn.parentElement.querySelector('textarea').focus();
     };
   });
   document.querySelectorAll('.notes-area').forEach(ta => {
-    ta.oninput = () => {
-      state.notes[ta.dataset.key] = ta.value;
-      saveState();
-    };
+    ta.oninput = () => { state.notes[ta.dataset.key] = ta.value; saveState(); };
     ta.onclick = (e) => e.stopPropagation();
   });
 }
@@ -1219,9 +842,227 @@ function attachHandlers() {
 function toast(msg, kind) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'toast show' + (kind === 'ok' ? ' ok' : '');
-  setTimeout(() => t.className = 'toast', 2200);
+  t.className = 'toast show' + (kind === 'ok' ? ' ok' : kind === 'err' ? ' err' : '');
+  setTimeout(() => t.className = 'toast', 2500);
 }
+
+function updateSyncDot() {
+  const dot = document.getElementById('sync-dot');
+  dot.className = 'sync-dot';
+  if (!syncConfig) {
+    dot.title = 'Sync not configured. Click to set up.';
+  } else if (syncing) {
+    dot.classList.add('syncing');
+    dot.title = 'Syncing...';
+  } else if (syncConfig.lastError) {
+    dot.classList.add('error');
+    dot.title = 'Sync error: ' + syncConfig.lastError + '. Click for details.';
+  } else {
+    dot.classList.add('synced');
+    const last = syncConfig.lastSync ? new Date(syncConfig.lastSync).toLocaleString() : 'never';
+    dot.title = 'Synced. Last: ' + last;
+  }
+}
+
+function mergeStates(local, remote) {
+  const done = Object.assign({}, remote.done || {});
+  for (const id in (local.done || {})) {
+    if (!done[id] || local.done[id] > done[id]) done[id] = local.done[id];
+  }
+  const notes = Object.assign({}, remote.notes || {});
+  for (const k in (local.notes || {})) {
+    if (!notes[k] || (local.notes[k] || '').length > (notes[k] || '').length) notes[k] = local.notes[k];
+  }
+  const understood = Object.assign({}, remote.understood || {}, local.understood || {});
+  const days = Array.from(new Set([].concat(local.days || [], remote.days || []))).sort();
+  const localLast = local.lastSession || '';
+  const remoteLast = remote.lastSession || '';
+  const lastSession = localLast > remoteLast ? localLast : remoteLast;
+  return {done, notes, understood, days, lastSession: lastSession || null};
+}
+
+async function gistFetch(url, options) {
+  const opts = options || {};
+  const res = await fetch(url, Object.assign({}, opts, {
+    headers: Object.assign({
+      'Authorization': 'token ' + syncConfig.token,
+      'Accept': 'application/vnd.github+json'
+    }, opts.headers || {})
+  }));
+  if (res.status === 401 || res.status === 403) throw new Error('TOKEN_INVALID');
+  if (!res.ok) throw new Error('HTTP_' + res.status);
+  return res.json();
+}
+
+async function findOrCreateGist() {
+  try {
+    const gists = await gistFetch('https://api.github.com/gists?per_page=100');
+    const found = gists.find(g => g.description === 'DSA tracker progress');
+    if (found) return found.id;
+  } catch (e) {
+    if (e.message === 'TOKEN_INVALID') throw e;
+  }
+  const created = await gistFetch('https://api.github.com/gists', {
+    method: 'POST',
+    body: JSON.stringify({
+      description: 'DSA tracker progress',
+      public: false,
+      files: { 'progress.json': { content: JSON.stringify(state, null, 2) } }
+    })
+  });
+  return created.id;
+}
+
+async function doGistSync() {
+  if (!syncConfig || !syncConfig.token) return;
+  if (syncing) return;
+  syncing = true;
+  updateSyncDot();
+  try {
+    if (!syncConfig.gistId) {
+      syncConfig.gistId = await findOrCreateGist();
+      saveSyncConfig(syncConfig);
+    }
+    await gistFetch('https://api.github.com/gists/' + syncConfig.gistId, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        files: { 'progress.json': { content: JSON.stringify(state, null, 2) } }
+      })
+    });
+    syncConfig.lastSync = new Date().toISOString();
+    syncConfig.lastError = null;
+    saveSyncConfig(syncConfig);
+  } catch (e) {
+    syncConfig.lastError = e.message;
+    saveSyncConfig(syncConfig);
+  } finally {
+    syncing = false;
+    updateSyncDot();
+  }
+}
+
+function queueGistSync() {
+  if (!syncConfig || !syncConfig.token) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(doGistSync, 1500);
+}
+
+async function pullFromGist() {
+  if (!syncConfig || !syncConfig.token) return;
+  syncing = true;
+  updateSyncDot();
+  try {
+    if (!syncConfig.gistId) {
+      syncConfig.gistId = await findOrCreateGist();
+      saveSyncConfig(syncConfig);
+    }
+    const gist = await gistFetch('https://api.github.com/gists/' + syncConfig.gistId);
+    const content = gist.files['progress.json'];
+    if (content && content.content) {
+      const remote = JSON.parse(content.content);
+      if (!remote.understood) remote.understood = {};
+      state = mergeStates(state, remote);
+      saveState(true);
+      render();
+    }
+    syncConfig.lastSync = new Date().toISOString();
+    syncConfig.lastError = null;
+    saveSyncConfig(syncConfig);
+  } catch (e) {
+    syncConfig.lastError = e.message;
+    saveSyncConfig(syncConfig);
+    if (e.message === 'TOKEN_INVALID') toast('Token invalid. Open sync settings.', 'err');
+  } finally {
+    syncing = false;
+    updateSyncDot();
+  }
+}
+
+function openSyncModal() {
+  const modal = document.getElementById('modal-sync');
+  const status = document.getElementById('modal-status');
+  const input = document.getElementById('token-input');
+  const disconnectBtn = document.getElementById('btn-disconnect');
+  status.style.display = 'none';
+  if (syncConfig && syncConfig.token) {
+    input.value = '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022' + syncConfig.token.slice(-4);
+    disconnectBtn.style.display = 'inline-block';
+    if (syncConfig.lastSync) {
+      status.textContent = 'Connected. Last sync: ' + new Date(syncConfig.lastSync).toLocaleString();
+      status.className = 'modal-status ok';
+      status.style.display = 'block';
+    }
+    if (syncConfig.lastError) {
+      status.textContent = 'Last error: ' + syncConfig.lastError;
+      status.className = 'modal-status err';
+      status.style.display = 'block';
+    }
+  } else {
+    input.value = '';
+    disconnectBtn.style.display = 'none';
+  }
+  modal.classList.add('open');
+  input.focus();
+}
+
+function closeSyncModal() {
+  document.getElementById('modal-sync').classList.remove('open');
+}
+
+async function saveSyncToken() {
+  const input = document.getElementById('token-input');
+  const status = document.getElementById('modal-status');
+  let token = input.value.trim();
+  if (token.startsWith('\u2022')) { closeSyncModal(); return; }
+  if (!token) {
+    status.textContent = 'Paste your token first';
+    status.className = 'modal-status err';
+    status.style.display = 'block';
+    return;
+  }
+  status.textContent = 'Testing token...';
+  status.className = 'modal-status';
+  status.style.display = 'block';
+  try {
+    const res = await fetch('https://api.github.com/user', {
+      headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) throw new Error('Invalid token. Check the scope is gist and the token is correct.');
+    const user = await res.json();
+    syncConfig = { token: token, gistId: (syncConfig && syncConfig.gistId) || null, lastSync: null, lastError: null, user: user.login };
+    saveSyncConfig(syncConfig);
+    status.textContent = 'Token valid (user: ' + user.login + '). Pulling existing progress...';
+    status.className = 'modal-status ok';
+    await pullFromGist();
+    await doGistSync();
+    status.textContent = 'Connected as ' + user.login + '. Auto-sync enabled.';
+    setTimeout(closeSyncModal, 1200);
+  } catch (e) {
+    status.textContent = e.message;
+    status.className = 'modal-status err';
+  }
+}
+
+function disconnectSync() {
+  if (!confirm('Disconnect sync? Token removed from this browser. The gist on GitHub is not deleted.')) return;
+  syncConfig = null;
+  localStorage.removeItem(SYNC_KEY);
+  updateSyncDot();
+  closeSyncModal();
+  toast('Sync disconnected', 'ok');
+}
+
+document.getElementById('btn-sync').onclick = openSyncModal;
+document.getElementById('sync-dot').onclick = openSyncModal;
+document.getElementById('btn-modal-close').onclick = closeSyncModal;
+document.getElementById('btn-modal-save').onclick = saveSyncToken;
+document.getElementById('btn-disconnect').onclick = disconnectSync;
+document.getElementById('modal-sync').onclick = (e) => {
+  if (e.target.id === 'modal-sync') closeSyncModal();
+};
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeSyncModal();
+});
 
 document.getElementById('btn-export').onclick = () => {
   const data = JSON.stringify(state, null, 2);
@@ -1229,7 +1070,7 @@ document.getElementById('btn-export').onclick = () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `dsa-progress-${todayKey()}.json`;
+  a.download = 'dsa-progress-' + todayKey() + '.json';
   a.click();
   URL.revokeObjectURL(url);
   toast('Exported', 'ok');
@@ -1246,13 +1087,8 @@ document.getElementById('btn-import').onclick = () => {
     reader.onload = () => {
       try {
         const imported = JSON.parse(reader.result);
-        const merged = {
-          done: {...state.done, ...imported.done},
-          notes: {...state.notes, ...imported.notes},
-          days: [...new Set([...(state.days || []), ...(imported.days || [])])].sort(),
-          lastSession: imported.lastSession || state.lastSession
-        };
-        state = merged;
+        if (!imported.understood) imported.understood = {};
+        state = mergeStates(state, imported);
         saveState();
         render();
         toast('Imported and merged', 'ok');
@@ -1266,18 +1102,20 @@ document.getElementById('btn-import').onclick = () => {
 };
 
 document.getElementById('btn-copy').onclick = () => {
-  const compressed = btoa(JSON.stringify(state));
-  const url = window.location.origin + window.location.pathname + '#s=' + compressed;
-  navigator.clipboard.writeText(url).then(() => {
-    toast('Link copied. Paste on other device', 'ok');
-  }).catch(() => {
-    prompt('Copy this URL', url);
-  });
+  try {
+    const compressed = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+    const url = window.location.origin + window.location.pathname + '#s=' + compressed;
+    navigator.clipboard.writeText(url).then(() => {
+      toast('Link copied. Paste on other device', 'ok');
+    }).catch(() => prompt('Copy this URL', url));
+  } catch (e) {
+    toast('Could not generate link', 'err');
+  }
 };
 
 document.getElementById('btn-reset').onclick = () => {
-  if (!confirm('Reset all progress, streaks, and notes? This cannot be undone.')) return;
-  state = {done: {}, notes: {}, days: [], lastSession: null};
+  if (!confirm('Reset all progress, streaks, notes, understood marks? Cannot be undone. Sync config kept.')) return;
+  state = {done:{}, notes:{}, understood:{}, days:[], lastSession:null};
   saveState();
   render();
   toast('Reset complete', 'ok');
@@ -1285,20 +1123,18 @@ document.getElementById('btn-reset').onclick = () => {
 
 if (window.location.hash.startsWith('#s=')) {
   try {
-    const decoded = JSON.parse(atob(window.location.hash.slice(3)));
+    const decoded = JSON.parse(decodeURIComponent(escape(atob(window.location.hash.slice(3)))));
+    if (!decoded.understood) decoded.understood = {};
     if (confirm('Load progress from URL? This will merge with your current progress.')) {
-      state = {
-        done: {...state.done, ...decoded.done},
-        notes: {...state.notes, ...decoded.notes},
-        days: [...new Set([...(state.days || []), ...(decoded.days || [])])].sort(),
-        lastSession: decoded.lastSession || state.lastSession
-      };
+      state = mergeStates(state, decoded);
       saveState();
     }
     history.replaceState(null, '', window.location.pathname);
-  } catch (e) {
-    console.warn('Invalid URL state');
-  }
+  } catch (e) {}
+}
+
+if (syncConfig && syncConfig.token) {
+  pullFromGist();
 }
 
 render();
